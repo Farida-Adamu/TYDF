@@ -449,17 +449,6 @@ img { display: block; max-width: 100%; }
   color: var(--white);
 }
 
-/* Skyline illustration area */
-.footer-skyline {
-  background: var(--cream-light);
-  overflow: hidden;
-  line-height: 0;
-}
-
-.footer-skyline svg {
-  width: 100%;
-  display: block;
-}
 
 /* Copyright bar */
 .footer-bar {
