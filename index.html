@@ -130,7 +130,7 @@
       color: var(--text-mid);
     }
 
-    /* ── BROWSE ORGS ──────────────────────────────────────── */
+    /* ── BROWSE PREVIEW ───────────────────────────────────── */
     .browse-section {
       padding: 72px 48px;
       background: var(--cream);
@@ -138,140 +138,107 @@
 
     .browse-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 28px;
+      margin-bottom: 8px;
     }
 
-    .view-all-link {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--amber);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: gap var(--transition);
-    }
-    .view-all-link:hover { gap: 8px; }
-
-    .filter-pills {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+    .browse-subhead {
+      font-size: 15px;
+      color: var(--text-muted);
       margin-bottom: 36px;
     }
 
-    .filter-pill {
-      padding: 8px 18px;
-      border-radius: 100px;
-      border: 1.5px solid var(--card-border);
+    /* Preview list */
+    .preview-list {
+      background: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .preview-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+      position: relative;
+    }
+
+    .preview-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--amber);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.25s ease;
+    }
+
+    .preview-row:hover::before { transform: scaleY(1); }
+    .preview-row:hover { background: #FDFBF8; }
+    .preview-row:last-child { border-bottom: none; }
+
+    .preview-main { flex: 1; min-width: 0; }
+
+    .preview-name {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .preview-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+    }
+
+    .preview-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .preview-link {
       font-size: 13px;
       font-weight: 500;
-      color: var(--text-mid);
-      cursor: pointer;
-      background: var(--white);
-      transition: all var(--transition);
-    }
-
-    .filter-pill:hover {
-      border-color: var(--green);
-      color: var(--green);
-    }
-
-    .filter-pill.active {
-      background: var(--green);
-      border-color: var(--green);
-      color: var(--white);
-    }
-
-    .filter-pill.active-outline {
-      background: transparent;
-      border-color: var(--green);
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    .orgs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    /* ── GEO ZONES ────────────────────────────────────────── */
-    .geo-section {
-      background: var(--green);
-      padding: 72px 48px;
-    }
-
-    .geo-header { margin-bottom: 12px; }
-
-    .geo-subhead {
-      font-size: 15px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 40px;
-    }
-
-    .zones-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 16px;
-    }
-
-    .zone-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 24px 20px;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .zone-card:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(196,117,26,0.5);
-      transform: translateY(-3px);
-    }
-
-    .zone-name {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-
-    .zone-count {
-      font-family: var(--font-serif);
-      font-size: 36px;
-      font-weight: 700;
       color: var(--amber);
-      line-height: 1;
-      margin-bottom: 4px;
+      white-space: nowrap;
+      margin-left: 8px;
+      transition: color var(--transition);
+      flex-shrink: 0;
+    }
+    .preview-link:hover { color: var(--amber-light); }
+
+    /* CTA row */
+    .browse-cta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
-    .zone-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.45);
+    .browse-cta-note {
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     /* ── RESPONSIVE ───────────────────────────────────────── */
-    @media (max-width: 1100px) {
-      .zones-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
     @media (max-width: 900px) {
-      .orgs-grid { grid-template-columns: repeat(2, 1fr); }
       .hero-heading { font-size: 42px; }
+      .preview-tags { display: none; }
     }
 
     @media (max-width: 640px) {
-      .orgs-grid { grid-template-columns: 1fr; }
-      .zones-grid { grid-template-columns: repeat(2, 1fr); }
       .hero { padding: 56px 24px 64px; }
-      .browse-section, .geo-section { padding: 48px 24px; }
+      .browse-section { padding: 48px 24px; }
       .stat-item { padding: 24px; }
     }
   </style>
@@ -281,7 +248,7 @@
   <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
   <nav class="site-nav">
     <div class="nav-logo">
-      <div class="nav-logo-mark">NP</div>
+      <a href="index.html"><div class="nav-logo-mark">NP</div></a>
     </div>
     <div class="nav-links">
       <a href="directory.html" class="active">Directory</a>
@@ -325,210 +292,93 @@
   <!-- ═══ BROWSE ORGANISATIONS ════════════════════════════════ -->
   <section class="browse-section">
     <div class="browse-header">
-      <h2 class="section-title">Browse Organisations</h2>
-      <a href="directory.html" class="view-all-link">View all 247 &nbsp;→</a>
+      <h2 class="section-title">Featured Organisations</h2>
+    </div>
+    <p class="browse-subhead">A selection from across Nigeria's philanthropic landscape.</p>
+
+    <div class="preview-list">
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">Aliko Dangote Foundation</span>
+          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South West</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-nutrition">Nutrition</span>
+          <span class="tag tag-health">Health</span>
+          <span class="tag tag-education">Education</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">TY Danjuma Foundation</span>
+          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South South</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-poverty-reduction">Poverty Reduction</span>
+          <span class="tag tag-minority-serving">Minority-Serving</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">Tony Elumelu Foundation</span>
+          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South East</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-entrepreneurship">Entrepreneurship</span>
+          <span class="tag tag-women-led">Women-Led</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">Herbert Macaulay Trust</span>
+          <span class="preview-meta">Trust · Family &nbsp;·&nbsp; North West</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-education">Education</span>
+          <span class="tag tag-women-led">Women-Led</span>
+          <span class="tag tag-disability-focused">Disability-Focused</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">Cocoa Foundation of Nigeria</span>
+          <span class="preview-meta">Foundation · Corporate &nbsp;·&nbsp; North Central</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-agriculture">Agriculture</span>
+          <span class="tag tag-minority-serving">Minority-Serving</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-main">
+          <span class="preview-name">Olusegun Aganga Foundation</span>
+          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South West</span>
+        </div>
+        <div class="preview-tags">
+          <span class="tag tag-health">Health</span>
+          <span class="tag tag-women-led">Women-Led</span>
+        </div>
+        <a href="profile.html" class="preview-link">View →</a>
+      </div>
+
     </div>
 
-    <div class="filter-pills">
-      <button class="filter-pill active">All</button>
-      <button class="filter-pill">Education</button>
-      <button class="filter-pill">Healthcare</button>
-      <button class="filter-pill">Entrepreneurship</button>
-      <button class="filter-pill">Environment</button>
-      <button class="filter-pill">Arts &amp; Culture</button>
-      <button class="filter-pill active-outline">Women-led</button>
-      <button class="filter-pill active-outline">Disability-focused</button>
+    <div class="browse-cta">
+      <a href="directory.html" class="btn-primary">Explore Full Directory &nbsp;→</a>
+      <span class="browse-cta-note">247 verified organisations across 6 geopolitical zones</span>
     </div>
 
-    <div class="orgs-grid">
-
-      <!-- Card 1 — Aliko Dangote Foundation -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">AF</div>
-            <span class="zone-badge">South West</span>
-          </div>
-          <h3 class="card-org-name">Aliko Dangote Foundation</h3>
-          <p class="card-org-type">Foundation · Private</p>
-          <p class="card-description">Nigeria's largest private philanthropic foundation, focused on nutrition, health, education, and economic empowerment.</p>
-          <div class="card-tags">
-            <span class="tag tag-nutrition">Nutrition</span>
-            <span class="tag tag-health">Health</span>
-            <span class="tag tag-education">Education</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-      <!-- Card 2 — TY Danjuma Foundation -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">TY</div>
-            <span class="zone-badge">South South</span>
-          </div>
-          <h3 class="card-org-name">TY Danjuma Foundation</h3>
-          <p class="card-org-type">Foundation · Private</p>
-          <p class="card-description">Committed to reducing poverty and improving the well-being of vulnerable people across Nigeria's regions.</p>
-          <div class="card-tags">
-            <span class="tag tag-poverty-reduction">Poverty Reduction</span>
-            <span class="tag tag-minority-serving">Minority-Serving</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-      <!-- Card 3 — Tony Elumelu Foundation -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">TC</div>
-            <span class="zone-badge">South East</span>
-          </div>
-          <h3 class="card-org-name">Tony Elumelu Foundation</h3>
-          <p class="card-org-type">Foundation · Private</p>
-          <p class="card-description">Pan-African philanthropic initiative committed to empowering African entrepreneurs through a ten-year, $100M commitment.</p>
-          <div class="card-tags">
-            <span class="tag tag-entrepreneurship">Entrepreneurship</span>
-            <span class="tag tag-women-led">Women-Led</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-      <!-- Card 4 — Herbert Macaulay Trust -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">HF</div>
-            <span class="zone-badge">North West</span>
-          </div>
-          <h3 class="card-org-name">Herbert Macaulay Trust</h3>
-          <p class="card-org-type">Trust · Family</p>
-          <p class="card-description">Regional trust providing scholarships and vocational training for underserved youth in the North West.</p>
-          <div class="card-tags">
-            <span class="tag tag-education">Education</span>
-            <span class="tag tag-women-led">Women-Led</span>
-            <span class="tag tag-disability-focused">Disability-Focused</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-      <!-- Card 5 — Cocoa Foundation of Nigeria -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">CF</div>
-            <span class="zone-badge">North Central</span>
-          </div>
-          <h3 class="card-org-name">Cocoa Foundation of Nigeria</h3>
-          <p class="card-org-type">Foundation · Corporate</p>
-          <p class="card-description">Corporate foundation focused on sustainable agriculture, rural livelihoods, and environmental conservation.</p>
-          <div class="card-tags">
-            <span class="tag tag-agriculture">Agriculture</span>
-            <span class="tag tag-minority-serving">Minority-Serving</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-      <!-- Card 6 — Olusegun Aganga Foundation -->
-      <article class="org-card">
-        <div class="card-body">
-          <div class="card-header">
-            <div class="org-avatar">OA</div>
-            <span class="zone-badge">South West</span>
-          </div>
-          <h3 class="card-org-name">Olusegun Aganga Foundation</h3>
-          <p class="card-org-type">Foundation · Private</p>
-          <p class="card-description">Dedicated to healthcare access and maternal health outcomes in underserved communities across Nigeria.</p>
-          <div class="card-tags">
-            <span class="tag tag-health">Health</span>
-            <span class="tag tag-women-led">Women-Led</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="verified-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified
-          </span>
-          <a href="profile.html" class="btn-ghost">View profile →</a>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ═══ GEOPOLITICAL ZONES ══════════════════════════════════ -->
-  <section class="geo-section">
-    <div class="geo-header">
-      <h2 class="section-title-light">Browse by Geopolitical Zone</h2>
-    </div>
-    <p class="geo-subhead">Explore the philanthropic landscape across Nigeria's six regions.</p>
-    <div class="zones-grid">
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">North<br>Central</div>
-        <div class="zone-count">31</div>
-        <div class="zone-label">organisations</div>
-      </a>
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">North<br>East</div>
-        <div class="zone-count">18</div>
-        <div class="zone-label">organisations</div>
-      </a>
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">North<br>West</div>
-        <div class="zone-count">27</div>
-        <div class="zone-label">organisations</div>
-      </a>
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">South<br>East</div>
-        <div class="zone-count">42</div>
-        <div class="zone-label">organisations</div>
-      </a>
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">South<br>South</div>
-        <div class="zone-count">38</div>
-        <div class="zone-label">organisations</div>
-      </a>
-      <a href="directory.html" class="zone-card">
-        <div class="zone-name">South<br>West</div>
-        <div class="zone-count">91</div>
-        <div class="zone-label">organisations</div>
-      </a>
-    </div>
   </section>
 
   <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
@@ -561,8 +411,6 @@
       <div style="text-align:right;">
         <div class="footer-commissioned">Commissioned by</div>
         <div class="footer-commissioned-name">TY Danjuma Foundation</div>
-        <div class="footer-designed-by">Designed by</div>
-        <div class="footer-designed-name">Gatefield</div>
       </div>
     </div>
 
@@ -572,14 +420,5 @@
     </div>
   </footer>
 
-  <script>
-    // Filter pills interactivity
-    document.querySelectorAll('.filter-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active', 'active-outline'));
-        pill.classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>
