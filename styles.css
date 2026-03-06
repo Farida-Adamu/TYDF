@@ -368,7 +368,7 @@ img { display: block; max-width: 100%; }
    FOOTER
    ========================================================= */
 .site-footer {
-  background: var(--green-deeper);
+  background: var(--green);
 }
 
 .footer-main {
@@ -452,7 +452,7 @@ img { display: block; max-width: 100%; }
 
 /* Copyright bar */
 .footer-bar {
-  background: var(--green-deeper);
+  background: var(--green-dark);
   padding: 16px 48px;
   display: flex;
   align-items: center;
