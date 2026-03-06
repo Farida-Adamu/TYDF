@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TY Danjuma Foundation — Nigeria Philanthropy Registry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    /* ── PROFILE HEADER ───────────────────────────────────── */
+    .profile-header {
+      background: var(--green);
+      padding: 28px 48px 40px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 28px;
+    }
+
+    .breadcrumb a { color: rgba(255,255,255,0.6); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb-sep { font-size: 11px; }
+
+    .profile-header-body {
+      display: flex;
+      align-items: flex-end;
+      gap: 28px;
+    }
+
+    .profile-avatar-lg {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    .profile-header-info { flex: 1; }
+
+    .profile-org-name {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .profile-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .profile-type-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .meta-dot { color: rgba(255,255,255,0.25); }
+
+    .profile-verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(27,102,69,0.4);
+      border: 1px solid rgba(27,102,69,0.6);
+      color: #7ED8A4;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .profile-zone-pill {
+      background: rgba(196,117,26,0.2);
+      border: 1px solid rgba(196,117,26,0.4);
+      color: var(--amber-muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ── TAB NAVIGATION ───────────────────────────────────── */
+    .profile-tabs {
+      background: var(--green-dark);
+      border-bottom: 3px solid var(--amber);
+      padding: 0 48px;
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+    }
+
+    .tab-link {
+      padding: 14px 22px 13px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      transition: all var(--transition);
+      letter-spacing: 0.2px;
+    }
+
+    .tab-link:hover { color: rgba(255,255,255,0.8); }
+
+    .tab-link.active {
+      color: var(--white);
+      border-bottom-color: var(--amber);
+      font-weight: 600;
+    }
+
+    /* ── PROFILE BODY ─────────────────────────────────────── */
+    .profile-body {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+      padding: 36px 48px;
+      background: var(--cream);
+      align-items: start;
+    }
+
+    /* ── MAIN CONTENT ─────────────────────────────────────── */
+    .profile-main {}
+
+    .content-section {
+      background: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .content-section-title {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-text {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .about-text + .about-text { margin-top: 12px; }
+
+    /* Key Details Grid */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .detail-item {}
+
+    .detail-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .detail-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .detail-value a { color: var(--amber); }
+    .detail-value a:hover { text-decoration: underline; }
+
+    /* Programmes */
+    .programme-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+
+    .programme-card:last-child { margin-bottom: 0; }
+
+    .programme-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .programme-name {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .programme-status {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .status-active {
+      background: #E3F5EC;
+      color: #1B6645;
+      border: 1px solid #8FCFB0;
+    }
+
+    .status-completed {
+      background: #F0EDE8;
+      color: #666;
+      border: 1px solid #D0C8BC;
+    }
+
+    .programme-sector {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .programme-desc {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────────────── */
+    .profile-sidebar {}
+
+    .sidebar-card {
+      background: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Action buttons */
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 7px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    .action-btn:last-child { margin-bottom: 0; }
+    .action-btn:hover { border-color: var(--green); color: var(--green); }
+    .action-btn svg { color: var(--text-muted); flex-shrink: 0; }
+
+    .action-btn.primary-action {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--white);
+      font-weight: 600;
+    }
+    .action-btn.primary-action:hover { background: var(--amber-light); border-color: var(--amber-light); }
+    .action-btn.primary-action svg { color: rgba(255,255,255,0.7); }
+
+    /* Contact info */
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .contact-row:last-child { margin-bottom: 0; }
+
+    .contact-row svg {
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .contact-row a { color: var(--amber); }
+    .contact-row a:hover { text-decoration: underline; }
+
+    /* GESI Classification */
+    .gesi-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* Data Provenance */
+    .provenance-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .provenance-row:first-child { padding-top: 0; }
+    .provenance-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .prov-label {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      flex-shrink: 0;
+    }
+
+    .prov-value {
+      color: var(--text-dark);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .ndpr-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #E3F5EC;
+      border: 1px solid #8FCFB0;
+      color: #1B6645;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .profile-body {
+        grid-template-columns: 1fr;
+        padding: 24px;
+      }
+      .profile-header { padding: 24px; }
+      .profile-tabs { padding: 0 24px; }
+    }
+
+    @media (max-width: 768px) {
+      .profile-org-name { font-size: 26px; }
+      .details-grid { grid-template-columns: 1fr; }
+      .profile-header-body { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">NP</div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Directory</a>
+      <a href="#">About</a>
+      <a href="#">Methodology</a>
+      <button class="btn-submit">Submit Organisation</button>
+    </div>
+  </nav>
+
+  <!-- ═══ PROFILE HEADER ══════════════════════════════════════ -->
+  <div class="profile-header">
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="directory.html">Directory</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>TY Danjuma Foundation</span>
+    </nav>
+    <div class="profile-header-body">
+      <div class="profile-avatar-lg">TY</div>
+      <div class="profile-header-info">
+        <h1 class="profile-org-name">TY Danjuma Foundation</h1>
+        <div class="profile-meta-row">
+          <span class="profile-type-badge">Foundation · Private</span>
+          <span class="meta-dot">·</span>
+          <span class="profile-zone-pill">South South</span>
+          <span class="meta-dot">·</span>
+          <span class="profile-verified-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Verified
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TAB NAVIGATION ══════════════════════════════════════ -->
+  <div class="profile-tabs">
+    <span class="tab-link active">Overview</span>
+    <span class="tab-link">Programmes</span>
+    <span class="tab-link">Financials</span>
+    <span class="tab-link">Contact</span>
+  </div>
+
+  <!-- ═══ PROFILE BODY ════════════════════════════════════════ -->
+  <div class="profile-body">
+
+    <!-- ── MAIN CONTENT COLUMN ───────────────────────────── -->
+    <div class="profile-main">
+
+      <!-- About -->
+      <div class="content-section">
+        <h2 class="content-section-title">About the Organisation</h2>
+        <p class="about-text">The TY Danjuma Foundation is a private philanthropic foundation established in 2009 by General Theophilus Yakubu Danjuma (rtd) and his wife Daisy Danjuma. The Foundation is committed to improving the well-being of vulnerable and marginalised people in Nigeria, with a focus on healthcare, education, and peace-building across underserved communities.</p>
+        <p class="about-text" style="margin-top:12px;">Operating primarily in the South South and North Central zones, the Foundation works through strategic partnerships with civil society organisations, government bodies, and international development agencies to achieve systemic, lasting change. The Foundation is particularly recognised for its grassroots health systems strengthening work and its scholarship programmes for young Nigerians from low-income families.</p>
+      </div>
+
+      <!-- Key Details -->
+      <div class="content-section">
+        <h2 class="content-section-title">Key Details</h2>
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-label">Organisation Type</div>
+            <div class="detail-value">Private Foundation</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Registration Status</div>
+            <div class="detail-value">Registered (CAC)</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Year Founded</div>
+            <div class="detail-value">2009</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Headquarters</div>
+            <div class="detail-value">Abuja, FCT</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Primary Sector</div>
+            <div class="detail-value">Healthcare · Education</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Operating Zones</div>
+            <div class="detail-value">South South · North Central</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Annual Giving (reported)</div>
+            <div class="detail-value">₦340M+</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Website</div>
+            <div class="detail-value"><a href="#">tydanjumafoundation.org</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Programmes -->
+      <div class="content-section">
+        <h2 class="content-section-title">Active Programmes</h2>
+
+        <div class="programme-card">
+          <div class="programme-header">
+            <span class="programme-name">Community Health Systems Strengthening</span>
+            <span class="programme-status status-active">Active</span>
+          </div>
+          <p class="programme-sector">Healthcare · South South</p>
+          <p class="programme-desc">A multi-year initiative to improve primary healthcare delivery in six states across Nigeria's South South zone, including supply chain strengthening, community health worker training, and infrastructure upgrades.</p>
+        </div>
+
+        <div class="programme-card">
+          <div class="programme-header">
+            <span class="programme-name">TYD Scholarship Programme</span>
+            <span class="programme-status status-active">Active</span>
+          </div>
+          <p class="programme-sector">Education · National</p>
+          <p class="programme-desc">Full tertiary scholarships for high-achieving students from low-income households across Nigeria. 450+ scholars supported since inception across 28 Nigerian universities.</p>
+        </div>
+
+        <div class="programme-card">
+          <div class="programme-header">
+            <span class="programme-name">North Central Peace &amp; Reconciliation Initiative</span>
+            <span class="programme-status status-completed">Completed</span>
+          </div>
+          <p class="programme-sector">Peace-Building · North Central</p>
+          <p class="programme-desc">A two-year community mediation and conflict resolution programme operating in Plateau, Benue, and Nasarawa states. Programme closed December 2024 with full evaluation report available.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ── SIDEBAR ────────────────────────────────────────── -->
+    <aside class="profile-sidebar">
+
+      <!-- Actions -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Actions</div>
+        <button class="action-btn primary-action">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Record (PDF / CSV)
+        </button>
+        <button class="action-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Request Update / Correction
+        </button>
+        <button class="action-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share Profile
+        </button>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Contact Information</div>
+        <div class="contact-row">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Plot 1276, Ahmadu Bello Way, Victoria Island, Abuja, FCT</span>
+        </div>
+        <div class="contact-row">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="#">info@tydanjumafoundation.org</a>
+        </div>
+        <div class="contact-row">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.63 4.37 2 2 0 0 1 3.61 2.18L6.92 2a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+234 (0) 9 4618200</span>
+        </div>
+        <div class="contact-row">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <a href="#">tydanjumafoundation.org</a>
+        </div>
+      </div>
+
+      <!-- GESI Classification -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">GESI Classification</div>
+        <div class="gesi-tags">
+          <span class="tag tag-minority-serving">Minority-Serving</span>
+          <span class="tag tag-women-led">Women-Led</span>
+          <span class="tag tag-disability-focused">Disability-Focused</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.5;">GESI tags are assigned based on organisational focus, leadership composition, and programme beneficiary data.</p>
+      </div>
+
+      <!-- Data Provenance -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-title">Data Provenance</div>
+        <div class="provenance-row">
+          <span class="prov-label">Source</span>
+          <span class="prov-value">NNNGO Sector Mapping 2025</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Verified by</span>
+          <span class="prov-value">Gatefield Research Team</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Last Updated</span>
+          <span class="prov-value">14 February 2026</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Compliance</span>
+          <span class="prov-value">
+            <span class="ndpr-badge">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              NDPR Compliant
+            </span>
+          </span>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand-name">Nigeria Philanthropy Registry</div>
+        <p class="footer-brand-desc">A centralized digital database of philanthropic foundations and trusts operating in Nigeria. Built for coordination, transparency, and collaboration.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Registry</div>
+        <nav class="footer-links">
+          <a href="directory.html">Browse All</a>
+          <a href="directory.html">By Zone</a>
+          <a href="directory.html">By Sector</a>
+          <a href="directory.html">GESI Filter</a>
+          <a href="#">Export Data</a>
+        </nav>
+      </div>
+      <div>
+        <div class="footer-col-label">About</div>
+        <nav class="footer-links">
+          <a href="#">About the Registry</a>
+          <a href="#">Methodology</a>
+          <a href="#">Data Governance</a>
+          <a href="#">NDPR Compliance</a>
+          <a href="#">Submit / Update Record</a>
+        </nav>
+      </div>
+      <div style="text-align:right;">
+        <div class="footer-commissioned">Commissioned by</div>
+        <div class="footer-commissioned-name">TY Danjuma Foundation</div>
+        <div class="footer-designed-by">Designed by</div>
+        <div class="footer-designed-name">Gatefield</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span class="footer-bar-text">© 2026 Nigeria Philanthropy Registry &nbsp;·&nbsp; Built by Gatefield</span>
+      <span class="footer-bar-ndpr">NDPR Compliant</span>
+    </div>
+  </footer>
+
+  <script>
+    // Tab interactivity
+    document.querySelectorAll('.tab-link').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

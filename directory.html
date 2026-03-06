@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directory — Nigeria Philanthropy Registry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    /* ── PAGE HEADER ──────────────────────────────────────── */
+    .page-header {
+      background: var(--green);
+      padding: 40px 48px 36px;
+      border-bottom: 3px solid var(--amber);
+    }
+
+    .page-header-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .page-title {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 7px;
+      overflow: hidden;
+      min-width: 360px;
+    }
+
+    .header-search-icon {
+      padding: 0 14px;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+    }
+
+    .header-search input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--white);
+      padding: 12px 0;
+    }
+
+    .header-search input::placeholder { color: rgba(255,255,255,0.4); }
+
+    .header-search-btn {
+      background: var(--amber);
+      color: var(--white);
+      border: none;
+      padding: 12px 20px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .header-search-btn:hover { background: var(--amber-light); }
+
+    /* ── ACTIVE FILTER CHIPS ──────────────────────────────── */
+    .active-filters-bar {
+      background: var(--cream);
+      padding: 14px 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .active-filters-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-right: 4px;
+    }
+
+    .active-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green);
+      color: var(--white);
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .active-chip-remove {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 10px;
+      line-height: 1;
+      transition: background var(--transition);
+    }
+    .active-chip-remove:hover { background: rgba(255,255,255,0.35); }
+
+    .clear-filters {
+      font-size: 12px;
+      color: var(--amber);
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    /* ── MAIN LAYOUT ──────────────────────────────────────── */
+    .directory-layout {
+      display: flex;
+      align-items: flex-start;
+      min-height: 80vh;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────────────── */
+    .filter-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 67px; /* nav height + 3px border */
+      height: calc(100vh - 67px);
+      overflow-y: auto;
+      padding: 24px 0;
+    }
+
+    .sidebar-heading {
+      padding: 0 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-dark);
+    }
+
+    .sidebar-reset {
+      font-size: 12px;
+      color: var(--amber);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .filter-group {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .filter-group-label svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-muted);
+      transition: transform var(--transition);
+    }
+
+    .filter-group.collapsed .filter-group-label svg { transform: rotate(-90deg); }
+    .filter-group.collapsed .filter-options { display: none; }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .filter-checkbox-row input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .filter-checkbox-label {
+      font-size: 13px;
+      color: var(--text-mid);
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .filter-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: #F0EDE8;
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+
+    /* GESI tag in sidebar */
+    .filter-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .filter-tag-row input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ── RESULTS AREA ─────────────────────────────────────── */
+    .results-area {
+      flex: 1;
+      background: var(--cream);
+      padding: 28px 32px;
+    }
+
+    .results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--text-mid);
+    }
+
+    .results-count strong {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .results-sort {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .results-sort label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .results-sort select {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      background: var(--white);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .view-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .view-btn {
+      padding: 7px 12px;
+      background: var(--white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      border-right: 1px solid var(--border);
+    }
+
+    .view-btn:last-child { border-right: none; }
+    .view-btn.active { background: var(--green); color: var(--white); }
+
+    /* ── LIST RESULT CARDS ────────────────────────────────── */
+    .results-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--amber);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+
+    .result-card:hover::before { transform: scaleY(1); }
+    .result-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .result-avatar {
+      width: 48px;
+      height: 48px;
+      background: #D4E6DB;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .result-meta { flex: 1; min-width: 0; }
+
+    .result-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .result-name {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+
+    .result-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .result-type {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .result-desc {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .result-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .result-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .result-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+    .btn-export {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-export:hover { border-color: var(--green); color: var(--green); }
+
+    .btn-profile {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: none;
+      background: var(--green);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .btn-profile:hover { background: var(--green-dark); }
+
+    /* ── PAGINATION ───────────────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .page-btn:hover { border-color: var(--green); color: var(--green); }
+    .page-btn.active { background: var(--green); border-color: var(--green); color: var(--white); }
+    .page-btn.arrow { font-size: 16px; color: var(--text-muted); }
+    .page-ellipsis { font-size: 14px; color: var(--text-muted); padding: 0 4px; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .filter-sidebar { display: none; }
+      .results-area { padding: 20px; }
+      .page-header { padding: 24px; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+      .header-search { min-width: unset; width: 100%; }
+      .active-filters-bar { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">NP</div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Directory</a>
+      <a href="#">About</a>
+      <a href="#">Methodology</a>
+      <button class="btn-submit">Submit Organisation</button>
+    </div>
+  </nav>
+
+  <!-- ═══ PAGE HEADER ═════════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <h1 class="page-title">Browse Organisations</h1>
+        <p class="page-subtitle">247 organisations across Nigeria's six geopolitical zones</p>
+      </div>
+      <div class="header-search">
+        <span class="header-search-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" placeholder="Search by name, sector, or location…" value="Women-led foundations">
+        <button class="header-search-btn">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ACTIVE FILTERS BAR ══════════════════════════════════ -->
+  <div class="active-filters-bar">
+    <span class="active-filters-label">Filters:</span>
+    <span class="active-chip">Women-led <span class="active-chip-remove">✕</span></span>
+    <span class="active-chip">South West <span class="active-chip-remove">✕</span></span>
+    <span class="active-chip">Healthcare <span class="active-chip-remove">✕</span></span>
+    <span class="clear-filters">Clear all</span>
+  </div>
+
+  <!-- ═══ DIRECTORY LAYOUT ════════════════════════════════════ -->
+  <div class="directory-layout">
+
+    <!-- ── FILTER SIDEBAR ─────────────────────────────────── -->
+    <aside class="filter-sidebar">
+      <div class="sidebar-heading">
+        <span class="sidebar-title">Filters</span>
+        <span class="sidebar-reset">Reset all</span>
+      </div>
+
+      <!-- Organisation Type -->
+      <div class="filter-group">
+        <div class="filter-group-label">
+          Organisation Type
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-options">
+          <label class="filter-checkbox-row">
+            <input type="checkbox" checked>
+            <span class="filter-checkbox-label">Foundation</span>
+            <span class="filter-count">162</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Trust</span>
+            <span class="filter-count">58</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Corporate Foundation</span>
+            <span class="filter-count">27</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Geopolitical Zone -->
+      <div class="filter-group">
+        <div class="filter-group-label">
+          Geopolitical Zone
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-options">
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">North Central</span>
+            <span class="filter-count">31</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">North East</span>
+            <span class="filter-count">18</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">North West</span>
+            <span class="filter-count">27</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">South East</span>
+            <span class="filter-count">42</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">South South</span>
+            <span class="filter-count">38</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox" checked>
+            <span class="filter-checkbox-label">South West</span>
+            <span class="filter-count">91</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Sector -->
+      <div class="filter-group">
+        <div class="filter-group-label">
+          Sector
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-options">
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Education</span>
+            <span class="filter-count">84</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox" checked>
+            <span class="filter-checkbox-label">Healthcare</span>
+            <span class="filter-count">61</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Entrepreneurship</span>
+            <span class="filter-count">45</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Environment</span>
+            <span class="filter-count">29</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Agriculture</span>
+            <span class="filter-count">22</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Arts &amp; Culture</span>
+            <span class="filter-count">14</span>
+          </label>
+          <label class="filter-checkbox-row">
+            <input type="checkbox">
+            <span class="filter-checkbox-label">Poverty Reduction</span>
+            <span class="filter-count">38</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- GESI Tags -->
+      <div class="filter-group">
+        <div class="filter-group-label">
+          GESI Tags
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-options">
+          <label class="filter-tag-row">
+            <input type="checkbox" checked>
+            <span class="tag tag-women-led">Women-Led</span>
+            <span class="filter-count" style="margin-left:auto;">73</span>
+          </label>
+          <label class="filter-tag-row">
+            <input type="checkbox">
+            <span class="tag tag-disability-focused">Disability-Focused</span>
+            <span class="filter-count" style="margin-left:auto;">31</span>
+          </label>
+          <label class="filter-tag-row">
+            <input type="checkbox">
+            <span class="tag tag-minority-serving">Minority-Serving</span>
+            <span class="filter-count" style="margin-left:auto;">44</span>
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── RESULTS AREA ───────────────────────────────────── -->
+    <main class="results-area">
+
+      <div class="results-toolbar">
+        <p class="results-count">Showing <strong>38</strong> of 247 organisations</p>
+        <div class="results-sort" style="display:flex; align-items:center; gap:16px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label class="results-sort">Sort by</label>
+            <select>
+              <option>Name A–Z</option>
+              <option>Most Recently Updated</option>
+              <option>Zone</option>
+            </select>
+          </div>
+          <div class="view-toggle">
+            <button class="view-btn active" title="List view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+            <button class="view-btn" title="Grid view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-list">
+
+        <!-- Result 1 -->
+        <article class="result-card">
+          <div class="result-avatar">OA</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Olusegun Aganga Foundation</h3>
+              <div class="result-badges">
+                <span class="zone-badge">South West</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Foundation · Private</p>
+            <p class="result-desc">Dedicated to healthcare access and maternal health outcomes in underserved communities across Nigeria's South West region.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-health">Health</span>
+                <span class="tag tag-women-led">Women-Led</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Result 2 -->
+        <article class="result-card">
+          <div class="result-avatar">AF</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Aliko Dangote Foundation</h3>
+              <div class="result-badges">
+                <span class="zone-badge">South West</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Foundation · Private</p>
+            <p class="result-desc">Nigeria's largest private philanthropic foundation, focused on nutrition, health, education, and economic empowerment of vulnerable Nigerians.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-nutrition">Nutrition</span>
+                <span class="tag tag-health">Health</span>
+                <span class="tag tag-education">Education</span>
+                <span class="tag tag-women-led">Women-Led</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Result 3 -->
+        <article class="result-card">
+          <div class="result-avatar">TC</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Tony Elumelu Foundation</h3>
+              <div class="result-badges">
+                <span class="zone-badge">South East</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Foundation · Private</p>
+            <p class="result-desc">Pan-African philanthropic initiative empowering African entrepreneurs through a ten-year, $100 million commitment to training, mentoring, and funding.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-entrepreneurship">Entrepreneurship</span>
+                <span class="tag tag-women-led">Women-Led</span>
+                <span class="tag tag-minority-serving">Minority-Serving</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Result 4 -->
+        <article class="result-card">
+          <div class="result-avatar">BF</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Bosun Tijani Renewal Foundation</h3>
+              <div class="result-badges">
+                <span class="zone-badge">South West</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Foundation · Private</p>
+            <p class="result-desc">Focused on digital inclusion, technology access, and youth empowerment through grants and capacity-building programmes.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-education">Education</span>
+                <span class="tag tag-women-led">Women-Led</span>
+                <span class="tag tag-disability-focused">Disability-Focused</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Result 5 -->
+        <article class="result-card">
+          <div class="result-avatar">GF</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Genevieve Nnaji Foundation</h3>
+              <div class="result-badges">
+                <span class="zone-badge">South West</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Foundation · Private</p>
+            <p class="result-desc">Arts, culture, and mental health advocacy foundation supporting creative industries and women's wellness across Nigeria.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-arts-culture">Arts &amp; Culture</span>
+                <span class="tag tag-health">Health</span>
+                <span class="tag tag-women-led">Women-Led</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Result 6 -->
+        <article class="result-card">
+          <div class="result-avatar">ZF</div>
+          <div class="result-meta">
+            <div class="result-top">
+              <h3 class="result-name">Zainab Usman Community Trust</h3>
+              <div class="result-badges">
+                <span class="zone-badge">North West</span>
+                <span class="verified-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <p class="result-type">Trust · Community</p>
+            <p class="result-desc">Grassroots community trust supporting girl-child education, maternal health, and economic empowerment in Kano and Kaduna states.</p>
+            <div class="result-footer">
+              <div class="result-tags">
+                <span class="tag tag-education">Education</span>
+                <span class="tag tag-health">Health</span>
+                <span class="tag tag-women-led">Women-Led</span>
+                <span class="tag tag-minority-serving">Minority-Serving</span>
+              </div>
+              <div class="result-actions">
+                <button class="btn-export">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Record
+                </button>
+                <a href="profile.html" class="btn-profile">View Profile →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- ── PAGINATION ─────────────────────────────────────── -->
+      <div class="pagination">
+        <button class="page-btn arrow">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <span class="page-ellipsis">…</span>
+        <button class="page-btn">12</button>
+        <button class="page-btn arrow">›</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand-name">Nigeria Philanthropy Registry</div>
+        <p class="footer-brand-desc">A centralized digital database of philanthropic foundations and trusts operating in Nigeria. Built for coordination, transparency, and collaboration.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Registry</div>
+        <nav class="footer-links">
+          <a href="directory.html">Browse All</a>
+          <a href="directory.html">By Zone</a>
+          <a href="directory.html">By Sector</a>
+          <a href="directory.html">GESI Filter</a>
+          <a href="#">Export Data</a>
+        </nav>
+      </div>
+      <div>
+        <div class="footer-col-label">About</div>
+        <nav class="footer-links">
+          <a href="#">About the Registry</a>
+          <a href="#">Methodology</a>
+          <a href="#">Data Governance</a>
+          <a href="#">NDPR Compliance</a>
+          <a href="#">Submit / Update Record</a>
+        </nav>
+      </div>
+      <div style="text-align:right;">
+        <div class="footer-commissioned">Commissioned by</div>
+        <div class="footer-commissioned-name">TY Danjuma Foundation</div>
+        <div class="footer-designed-by">Designed by</div>
+        <div class="footer-designed-name">Gatefield</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span class="footer-bar-text">© 2026 Nigeria Philanthropy Registry &nbsp;·&nbsp; Built by Gatefield</span>
+      <span class="footer-bar-ndpr">NDPR Compliant</span>
+    </div>
+  </footer>
+
+</body>
+</html>
