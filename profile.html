@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TY Danjuma Foundation — Nigeria Philanthropy Registry</title>
+  <title>Organisation Profile — Nigeria Philanthropy Registry</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
 
     /* ── PROFILE HEADER ───────────────────────────────────── */
@@ -142,7 +143,6 @@
       align-items: start;
     }
 
-    /* ── MAIN CONTENT ─────────────────────────────────────── */
     .profile-main {}
 
     .content-section {
@@ -168,8 +168,6 @@
       color: var(--text-mid);
       line-height: 1.75;
     }
-
-    .about-text + .about-text { margin-top: 12px; }
 
     /* Key Details Grid */
     .details-grid {
@@ -237,12 +235,6 @@
       background: #E3F5EC;
       color: #1B6645;
       border: 1px solid #8FCFB0;
-    }
-
-    .status-completed {
-      background: #F0EDE8;
-      color: #666;
-      border: 1px solid #D0C8BC;
     }
 
     .programme-sector {
@@ -381,12 +373,28 @@
       text-transform: uppercase;
     }
 
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.08) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      height: 1em;
+      display: inline-block;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* Error state */
+    .profile-error {
+      padding: 40px 0;
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+    }
+    .profile-error a { color: var(--amber-muted); }
+
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .profile-body {
-        grid-template-columns: 1fr;
-        padding: 24px;
-      }
+      .profile-body { grid-template-columns: 1fr; padding: 24px; }
       .profile-header { padding: 24px; }
       .profile-tabs { padding: 0 24px; }
     }
@@ -406,7 +414,7 @@
       <a href="index.html"><div class="nav-logo-mark">NP</div></a>
     </div>
     <div class="nav-links">
-      <a href="index.html">Directory</a>
+      <a href="directory.html">Directory</a>
       <a href="#">About</a>
       <a href="#">Methodology</a>
       <button class="btn-submit">Submit Organisation</button>
@@ -420,18 +428,18 @@
       <span class="breadcrumb-sep">›</span>
       <a href="directory.html">Directory</a>
       <span class="breadcrumb-sep">›</span>
-      <span>TY Danjuma Foundation</span>
+      <span id="breadcrumb-org-name">Loading…</span>
     </nav>
     <div class="profile-header-body">
-      <div class="profile-avatar-lg">TY</div>
+      <div id="profile-avatar" class="profile-avatar-lg">…</div>
       <div class="profile-header-info">
-        <h1 class="profile-org-name">TY Danjuma Foundation</h1>
+        <h1 id="profile-org-name" class="profile-org-name">Loading…</h1>
         <div class="profile-meta-row">
-          <span class="profile-type-badge">Foundation · Private</span>
-          <span class="meta-dot">·</span>
-          <span class="profile-zone-pill">South South</span>
-          <span class="meta-dot">·</span>
-          <span class="profile-verified-badge">
+          <span id="profile-type-badge" class="profile-type-badge"></span>
+          <span class="meta-dot" id="meta-dot-zone" style="display:none;">·</span>
+          <span id="profile-zone-pill" class="profile-zone-pill" style="display:none;"></span>
+          <span class="meta-dot" id="meta-dot-verified" style="display:none;">·</span>
+          <span id="profile-verified-badge" class="profile-verified-badge" style="display:none;">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             Verified
           </span>
@@ -457,80 +465,28 @@
       <!-- About -->
       <div class="content-section">
         <h2 class="content-section-title">About the Organisation</h2>
-        <p class="about-text">The TY Danjuma Foundation is a private philanthropic foundation established in 2009 by General Theophilus Yakubu Danjuma (rtd) and his wife Daisy Danjuma. The Foundation is committed to improving the well-being of vulnerable and marginalised people in Nigeria, with a focus on healthcare, education, and peace-building across underserved communities.</p>
-        <p class="about-text" style="margin-top:12px;">Operating primarily in the South South and North Central zones, the Foundation works through strategic partnerships with civil society organisations, government bodies, and international development agencies to achieve systemic, lasting change. The Foundation is particularly recognised for its grassroots health systems strengthening work and its scholarship programmes for young Nigerians from low-income families.</p>
+        <div id="about-text" class="about-text">
+          <span class="skeleton" style="width:100%;display:block;margin-bottom:8px;"></span>
+          <span class="skeleton" style="width:88%;display:block;margin-bottom:8px;"></span>
+          <span class="skeleton" style="width:94%;display:block;"></span>
+        </div>
       </div>
 
       <!-- Key Details -->
       <div class="content-section">
         <h2 class="content-section-title">Key Details</h2>
-        <div class="details-grid">
-          <div class="detail-item">
-            <div class="detail-label">Organisation Type</div>
-            <div class="detail-value">Private Foundation</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Registration Status</div>
-            <div class="detail-value">Registered (CAC)</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Year Founded</div>
-            <div class="detail-value">2009</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Headquarters</div>
-            <div class="detail-value">Abuja, FCT</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Primary Sector</div>
-            <div class="detail-value">Healthcare · Education</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Operating Zones</div>
-            <div class="detail-value">South South · North Central</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Annual Giving (reported)</div>
-            <div class="detail-value">₦340M+</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label">Website</div>
-            <div class="detail-value"><a href="#">tydanjumafoundation.org</a></div>
-          </div>
+        <div id="details-grid" class="details-grid">
+          <div class="detail-item"><div class="detail-label">Loading</div><div class="detail-value"><span class="skeleton" style="width:80%;display:block;"></span></div></div>
+          <div class="detail-item"><div class="detail-label">Loading</div><div class="detail-value"><span class="skeleton" style="width:80%;display:block;"></span></div></div>
         </div>
       </div>
 
       <!-- Active Programmes -->
       <div class="content-section">
         <h2 class="content-section-title">Active Programmes</h2>
-
-        <div class="programme-card">
-          <div class="programme-header">
-            <span class="programme-name">Community Health Systems Strengthening</span>
-            <span class="programme-status status-active">Active</span>
-          </div>
-          <p class="programme-sector">Healthcare · South South</p>
-          <p class="programme-desc">A multi-year initiative to improve primary healthcare delivery in six states across Nigeria's South South zone, including supply chain strengthening, community health worker training, and infrastructure upgrades.</p>
+        <div id="programmes-content">
+          <p style="font-size:14px;color:var(--text-muted);line-height:1.6;">Programme data will be available in a future registry update.</p>
         </div>
-
-        <div class="programme-card">
-          <div class="programme-header">
-            <span class="programme-name">TYD Scholarship Programme</span>
-            <span class="programme-status status-active">Active</span>
-          </div>
-          <p class="programme-sector">Education · National</p>
-          <p class="programme-desc">Full tertiary scholarships for high-achieving students from low-income households across Nigeria. 450+ scholars supported since inception across 28 Nigerian universities.</p>
-        </div>
-
-        <div class="programme-card">
-          <div class="programme-header">
-            <span class="programme-name">North Central Peace &amp; Reconciliation Initiative</span>
-            <span class="programme-status status-completed">Completed</span>
-          </div>
-          <p class="programme-sector">Peace-Building · North Central</p>
-          <p class="programme-desc">A two-year community mediation and conflict resolution programme operating in Plateau, Benue, and Nasarawa states. Programme closed December 2024 with full evaluation report available.</p>
-        </div>
-
       </div>
 
     </div>
@@ -558,31 +514,20 @@
       <!-- Contact Info -->
       <div class="sidebar-card">
         <div class="sidebar-card-title">Contact Information</div>
-        <div class="contact-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Plot 1276, Ahmadu Bello Way, Victoria Island, Abuja, FCT</span>
-        </div>
-        <div class="contact-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <a href="#">info@tydanjumafoundation.org</a>
-        </div>
-        <div class="contact-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.63 4.37 2 2 0 0 1 3.61 2.18L6.92 2a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span>+234 (0) 9 4618200</span>
-        </div>
-        <div class="contact-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <a href="#">tydanjumafoundation.org</a>
+        <div id="contact-info">
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span><span class="skeleton" style="width:160px;display:inline-block;"></span></span>
+          </div>
         </div>
       </div>
 
       <!-- GESI Classification -->
       <div class="sidebar-card">
         <div class="sidebar-card-title">GESI Classification</div>
-        <div class="gesi-tags">
-          <span class="tag tag-minority-serving">Minority-Serving</span>
-          <span class="tag tag-women-led">Women-Led</span>
-          <span class="tag tag-disability-focused">Disability-Focused</span>
+        <div id="gesi-tags" class="gesi-tags">
+          <span class="skeleton" style="width:90px;height:22px;border-radius:4px;display:inline-block;"></span>
+          <span class="skeleton" style="width:110px;height:22px;border-radius:4px;display:inline-block;"></span>
         </div>
         <p style="font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.5;">GESI tags are assigned based on organisational focus, leadership composition, and programme beneficiary data.</p>
       </div>
@@ -590,26 +535,20 @@
       <!-- Data Provenance -->
       <div class="sidebar-card">
         <div class="sidebar-card-title">Data Provenance</div>
-        <div class="provenance-row">
-          <span class="prov-label">Source</span>
-          <span class="prov-value">NNNGO Sector Mapping 2025</span>
-        </div>
-        <div class="provenance-row">
-          <span class="prov-label">Verified by</span>
-          <span class="prov-value">Gatefield Research Team</span>
-        </div>
-        <div class="provenance-row">
-          <span class="prov-label">Last Updated</span>
-          <span class="prov-value">14 February 2026</span>
-        </div>
-        <div class="provenance-row">
-          <span class="prov-label">Compliance</span>
-          <span class="prov-value">
-            <span class="ndpr-badge">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              NDPR Compliant
+        <div id="data-provenance">
+          <div class="provenance-row">
+            <span class="prov-label">Source</span>
+            <span class="prov-value"><span class="skeleton" style="width:100px;display:inline-block;"></span></span>
+          </div>
+          <div class="provenance-row">
+            <span class="prov-label">Compliance</span>
+            <span class="prov-value">
+              <span class="ndpr-badge">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                NDPR Compliant
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
 
@@ -656,13 +595,239 @@
   </footer>
 
   <script>
-    // Tab interactivity
+    const SUPABASE_URL = 'https://snmwbvqhomnkeuyrenkg.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNubXdidnFob21ua2V1eXJlbmtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjgwNjYsImV4cCI6MjA5MzY0NDA2Nn0.mcPU500-Y4YeUgx92N0zuNnwHjD37xI-YgAQJk1tL7w';
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ── Helpers ──────────────────────────────────────────────
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function initials(name) {
+      if (!name) return 'NG';
+      const words = name.trim().split(/\s+/).filter(Boolean);
+      const a = words[0] ? words[0][0] : '';
+      const b = words[1] ? words[1][0] : '';
+      return (a + b).toUpperCase() || 'NG';
+    }
+
+    const TAG_CLASS_MAP = {
+      'nutrition':         'tag-nutrition',
+      'health':            'tag-health',
+      'education':         'tag-education',
+      'entrepreneurship':  'tag-entrepreneurship',
+      'women-led':         'tag-women-led',
+      'minority-serving':  'tag-minority-serving',
+      'poverty reduction': 'tag-poverty-reduction',
+      'agriculture':       'tag-agriculture',
+      'disability-focused':'tag-disability-focused',
+      'environment':       'tag-environment',
+      'arts & culture':    'tag-arts-culture',
+      'arts and culture':  'tag-arts-culture',
+    };
+
+    function getTagClass(tag) {
+      return TAG_CLASS_MAP[tag.trim().toLowerCase()] || '';
+    }
+
+    function renderTagChips(tagString) {
+      if (!tagString) return '<span style="font-size:13px;color:var(--text-muted);">No tags recorded</span>';
+      return tagString.split(',')
+        .map(t => t.trim()).filter(Boolean)
+        .map(t => `<span class="tag ${getTagClass(t)}">${esc(t)}</span>`)
+        .join('');
+    }
+
+    // ── Show error in header ─────────────────────────────────
+    function showError(msg) {
+      document.getElementById('breadcrumb-org-name').textContent = 'Not found';
+      document.getElementById('profile-avatar').textContent = '?';
+      document.getElementById('profile-org-name').textContent = 'Organisation not found';
+      document.getElementById('profile-type-badge').textContent = '';
+      document.getElementById('about-text').innerHTML =
+        `<p style="color:var(--text-muted);">${esc(msg)} <a href="directory.html" style="color:var(--amber);">← Back to Directory</a></p>`;
+      document.getElementById('details-grid').innerHTML = '';
+      document.getElementById('gesi-tags').innerHTML = '';
+      document.getElementById('contact-info').innerHTML = '';
+      document.getElementById('data-provenance').innerHTML = '';
+    }
+
+    // ── Build details grid HTML ──────────────────────────────
+    function buildDetailsGrid(org) {
+      const items = [
+        { label: 'Organisation Type',      value: org['Type'] || '—' },
+        { label: 'Classification',         value: org['Classification'] || '—' },
+        { label: 'Year Founded',           value: org['Year Founded'] || '—' },
+        { label: 'Headquarters',           value: org['HQ'] || '—' },
+        { label: 'Primary Sector',         value: org['Primary Focus Areas'] || org['CSR / Philanthropy Focus Areas'] || '—' },
+        { label: 'Geopolitical Zone',      value: (org['Geo-Political Zone'] || '—').replace(/-/g, ' ') },
+        { label: 'Annual Giving (reported)', value: org['Annual Giving'] || '—' },
+        { label: 'Website', value: org['Website']
+            ? `<a href="${esc(org['Website'])}" target="_blank" rel="noopener">${esc(org['Website'].replace(/^https?:\/\//, ''))}</a>`
+            : '—' },
+      ];
+
+      return items.map(item => `
+        <div class="detail-item">
+          <div class="detail-label">${esc(item.label)}</div>
+          <div class="detail-value">${item.value}</div>
+        </div>`).join('');
+    }
+
+    // ── Build contact info HTML ──────────────────────────────
+    function buildContactInfo(org) {
+      const rows = [];
+
+      if (org['Address']) {
+        rows.push(`
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${esc(org['Address'])}</span>
+          </div>`);
+      }
+
+      if (org['Email']) {
+        rows.push(`
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:${esc(org['Email'])}">${esc(org['Email'])}</a>
+          </div>`);
+      }
+
+      if (org['Phone']) {
+        rows.push(`
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.63 4.37 2 2 0 0 1 3.61 2.18L6.92 2a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>${esc(org['Phone'])}</span>
+          </div>`);
+      }
+
+      if (org['Website']) {
+        rows.push(`
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <a href="${esc(org['Website'])}" target="_blank" rel="noopener">${esc(org['Website'].replace(/^https?:\/\//, ''))}</a>
+          </div>`);
+      }
+
+      if (rows.length === 0) {
+        return '<p style="font-size:13px;color:var(--text-muted);">No contact information recorded.</p>';
+      }
+
+      return rows.join('');
+    }
+
+    // ── Build data provenance HTML ───────────────────────────
+    function buildProvenance(org) {
+      const source     = org['Source'] || '—';
+      const verifiedBy = org['Verified By'] || '—';
+      const lastUpdate = org['Last Updated'] || '—';
+
+      return `
+        <div class="provenance-row">
+          <span class="prov-label">Source</span>
+          <span class="prov-value">${esc(source)}</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Verified by</span>
+          <span class="prov-value">${esc(verifiedBy)}</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Last Updated</span>
+          <span class="prov-value">${esc(lastUpdate)}</span>
+        </div>
+        <div class="provenance-row">
+          <span class="prov-label">Compliance</span>
+          <span class="prov-value">
+            <span class="ndpr-badge">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              NDPR Compliant
+            </span>
+          </span>
+        </div>`;
+    }
+
+    // ── Populate profile with org data ───────────────────────
+    function populateProfile(org) {
+      const name = org['Foundation Name'] || 'Unnamed Organisation';
+
+      document.title = `${name} — Nigeria Philanthropy Registry`;
+
+      // Header
+      document.getElementById('breadcrumb-org-name').textContent = name;
+      document.getElementById('profile-avatar').textContent = initials(name);
+      document.getElementById('profile-org-name').textContent = name;
+
+      const type = [org['Type'], org['Classification']].filter(Boolean).join(' · ');
+      document.getElementById('profile-type-badge').textContent = type;
+
+      const zone = (org['Geo-Political Zone'] || '').replace(/-/g, ' ');
+      if (zone) {
+        document.getElementById('profile-zone-pill').textContent = zone;
+        document.getElementById('profile-zone-pill').style.display = 'inline';
+        document.getElementById('meta-dot-zone').style.display = 'inline';
+      }
+
+      if (org['Verified']) {
+        document.getElementById('profile-verified-badge').style.display = 'inline-flex';
+        document.getElementById('meta-dot-verified').style.display = 'inline';
+      }
+
+      // About
+      const about = org['About'] || org['CSR / Philanthropy Focus Areas'] || 'No description available.';
+      document.getElementById('about-text').textContent = about;
+
+      // Key details
+      document.getElementById('details-grid').innerHTML = buildDetailsGrid(org);
+
+      // GESI tags
+      document.getElementById('gesi-tags').innerHTML = renderTagChips(org['GESI Tags'] || '');
+
+      // Contact info
+      document.getElementById('contact-info').innerHTML = buildContactInfo(org);
+
+      // Data provenance
+      document.getElementById('data-provenance').innerHTML = buildProvenance(org);
+    }
+
+    // ── Load profile from URL param ──────────────────────────
+    async function loadProfile() {
+      const params = new URLSearchParams(window.location.search);
+      const orgId = params.get('id');
+
+      if (!orgId) {
+        showError('No organisation was specified. Please select one from the directory.');
+        return;
+      }
+
+      const { data, error } = await db
+        .from('organisations')
+        .select('*')
+        .eq('id', orgId)
+        .single();
+
+      if (error || !data) {
+        showError('This organisation could not be found in the registry.');
+        return;
+      }
+
+      populateProfile(data);
+    }
+
+    // ── Tab interactivity ────────────────────────────────────
     document.querySelectorAll('.tab-link').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
       });
     });
+
+    loadProfile();
   </script>
 
 </body>
