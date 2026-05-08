@@ -190,17 +190,18 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
 }
 
-.tag-nutrition    { background: #FEF0DC; color: #A85E10; border: 1px solid #F0C882; }
-.tag-health       { background: #FDEAEA; color: #B02020; border: 1px solid #F0AAAA; }
-.tag-education    { background: #E3F3ED; color: #1A6645; border: 1px solid #8BCFB0; }
-.tag-entrepreneurship { background: #FFF8E6; color: #8A5A00; border: 1px solid #E8C96A; }
-.tag-women-led    { background: #FCE8F2; color: #8B1A54; border: 1px solid #E8A0C8; }
-.tag-minority-serving { background: #E5F3EC; color: #1B5E35; border: 1px solid #84C9A0; }
+.tag-nutrition         { background: #FEF0DC; color: #A85E10; border: 1px solid #F0C882; }
+.tag-health            { background: #FDEAEA; color: #B02020; border: 1px solid #F0AAAA; }
+.tag-education         { background: #E3F3ED; color: #1A6645; border: 1px solid #8BCFB0; }
+.tag-entrepreneurship  { background: #FFF8E6; color: #8A5A00; border: 1px solid #E8C96A; }
+.tag-women-led         { background: #FCE8F2; color: #8B1A54; border: 1px solid #E8A0C8; }
+.tag-minority-serving  { background: #E5F3EC; color: #1B5E35; border: 1px solid #84C9A0; }
 .tag-poverty-reduction { background: #E6EFF9; color: #1A3F7A; border: 1px solid #8AAED8; }
-.tag-agriculture  { background: #EFF5E3; color: #3A5A1A; border: 1px solid #AACC80; }
-.tag-disability-focused { background: #EAE9F7; color: #3A2A8A; border: 1px solid #A8A0D8; }
+.tag-agriculture       { background: #EFF5E3; color: #3A5A1A; border: 1px solid #AACC80; }
+.tag-disability-focused{ background: #EAE9F7; color: #3A2A8A; border: 1px solid #A8A0D8; }
 .tag-environment  { background: #E3EFF5; color: #1A4A5E; border: 1px solid #88B8CC; }
 .tag-arts-culture { background: #F7EAE9; color: #7A2A28; border: 1px solid #D8A0A0; }
+.tag-default      { background: #F0EDE8; color: #5A5A5A; border: 1px solid #D0C8BC; }
 
 /* =========================================================
    VERIFIED BADGE

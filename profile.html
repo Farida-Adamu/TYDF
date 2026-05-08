@@ -617,22 +617,39 @@
     }
 
     const TAG_CLASS_MAP = {
-      'nutrition':         'tag-nutrition',
-      'health':            'tag-health',
-      'education':         'tag-education',
-      'entrepreneurship':  'tag-entrepreneurship',
-      'women-led':         'tag-women-led',
-      'minority-serving':  'tag-minority-serving',
-      'poverty reduction': 'tag-poverty-reduction',
-      'agriculture':       'tag-agriculture',
-      'disability-focused':'tag-disability-focused',
-      'environment':       'tag-environment',
-      'arts & culture':    'tag-arts-culture',
-      'arts and culture':  'tag-arts-culture',
+      'nutrition':               'tag-nutrition',
+      'health':                  'tag-health',
+      'healthcare':              'tag-health',
+      'education':               'tag-education',
+      'entrepreneurship':        'tag-entrepreneurship',
+      'economic empowerment':    'tag-entrepreneurship',
+      'women-led':               'tag-women-led',
+      'women led':               'tag-women-led',
+      'minority-serving':        'tag-minority-serving',
+      'minority serving':        'tag-minority-serving',
+      'poverty reduction':       'tag-poverty-reduction',
+      'agriculture':             'tag-agriculture',
+      'disability-focused':      'tag-disability-focused',
+      'disability focused':      'tag-disability-focused',
+      'environment':             'tag-environment',
+      'environmental':           'tag-environment',
+      'arts & culture':          'tag-arts-culture',
+      'arts and culture':        'tag-arts-culture',
+      'humanitarian relief':     'tag-health',
+      'capacity building':       'tag-education',
+      'peace building':          'tag-poverty-reduction',
+      'peacebuilding':           'tag-poverty-reduction',
+      'governance':              'tag-minority-serving',
+      'human rights':            'tag-poverty-reduction',
+      'livelihood':              'tag-agriculture',
+      'food security':           'tag-nutrition',
+      'water & sanitation':      'tag-environment',
+      'water and sanitation':    'tag-environment',
+      'climate':                 'tag-environment',
     };
 
     function getTagClass(tag) {
-      return TAG_CLASS_MAP[tag.trim().toLowerCase()] || '';
+      return TAG_CLASS_MAP[tag.trim().toLowerCase()] || 'tag-default';
     }
 
     function renderTagChips(tagString) {
@@ -659,14 +676,19 @@
 
     // ── Build details grid HTML ──────────────────────────────
     function buildDetailsGrid(org) {
+      const spendNGN = org['Estimated Annual Spend (₦)'] || '';
+      const spendUSD = org['Estimated Annual Spend (USD)'] || '';
+      const spendStr = [spendNGN && `₦${spendNGN}`, spendUSD && `$${spendUSD}`].filter(Boolean).join(' / ') || '—';
+
       const items = [
-        { label: 'Organisation Type',      value: org['Type'] || '—' },
-        { label: 'Classification',         value: org['Classification'] || '—' },
-        { label: 'Year Founded',           value: org['Year Founded'] || '—' },
-        { label: 'Headquarters',           value: org['HQ'] || '—' },
-        { label: 'Primary Sector',         value: org['Primary Focus Areas'] || org['CSR / Philanthropy Focus Areas'] || '—' },
+        { label: 'Classification',         value: org['Foundation Classification'] || '—' },
         { label: 'Geopolitical Zone',      value: (org['Geo-Political Zone'] || '—').replace(/-/g, ' ') },
-        { label: 'Annual Giving (reported)', value: org['Annual Giving'] || '—' },
+        { label: 'State',                  value: org['State'] || '—' },
+        { label: 'Date of Registration',   value: org['Date of Registration'] || '—' },
+        { label: 'Governance Structure',   value: org['Governance Structure'] || '—' },
+        { label: 'Est. Annual Spend',      value: spendStr },
+        { label: 'Parent Organisation',    value: org['Organisation / Parent Company'] || '—' },
+        { label: 'CAC Status',             value: org['CAC Registration Status'] || '—' },
         { label: 'Website', value: org['Website']
             ? `<a href="${esc(org['Website'])}" target="_blank" rel="noopener">${esc(org['Website'].replace(/^https?:\/\//, ''))}</a>`
             : '—' },
@@ -683,27 +705,11 @@
     function buildContactInfo(org) {
       const rows = [];
 
-      if (org['Address']) {
+      if (org['Registered Address']) {
         rows.push(`
           <div class="contact-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>${esc(org['Address'])}</span>
-          </div>`);
-      }
-
-      if (org['Email']) {
-        rows.push(`
-          <div class="contact-row">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <a href="mailto:${esc(org['Email'])}">${esc(org['Email'])}</a>
-          </div>`);
-      }
-
-      if (org['Phone']) {
-        rows.push(`
-          <div class="contact-row">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.63 4.37 2 2 0 0 1 3.61 2.18L6.92 2a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>${esc(org['Phone'])}</span>
+            <span>${esc(org['Registered Address'])}</span>
           </div>`);
       }
 
@@ -712,6 +718,14 @@
           <div class="contact-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <a href="${esc(org['Website'])}" target="_blank" rel="noopener">${esc(org['Website'].replace(/^https?:\/\//, ''))}</a>
+          </div>`);
+      }
+
+      if (org['Verifiable Source Link']) {
+        rows.push(`
+          <div class="contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <a href="${esc(org['Verifiable Source Link'])}" target="_blank" rel="noopener">Verifiable Source</a>
           </div>`);
       }
 
@@ -724,22 +738,22 @@
 
     // ── Build data provenance HTML ───────────────────────────
     function buildProvenance(org) {
-      const source     = org['Source'] || '—';
-      const verifiedBy = org['Verified By'] || '—';
-      const lastUpdate = org['Last Updated'] || '—';
+      const cacStatus  = org['CAC Registration Status'] || '—';
+      const cacPortal  = org['CAC Portal Status (Active / Inactive)'] || '—';
+      const dateReg    = org['Date of Registration'] || '—';
 
       return `
         <div class="provenance-row">
-          <span class="prov-label">Source</span>
-          <span class="prov-value">${esc(source)}</span>
+          <span class="prov-label">CAC Status</span>
+          <span class="prov-value">${esc(cacStatus)}</span>
         </div>
         <div class="provenance-row">
-          <span class="prov-label">Verified by</span>
-          <span class="prov-value">${esc(verifiedBy)}</span>
+          <span class="prov-label">CAC Portal</span>
+          <span class="prov-value">${esc(cacPortal)}</span>
         </div>
         <div class="provenance-row">
-          <span class="prov-label">Last Updated</span>
-          <span class="prov-value">${esc(lastUpdate)}</span>
+          <span class="prov-label">Date Registered</span>
+          <span class="prov-value">${esc(dateReg)}</span>
         </div>
         <div class="provenance-row">
           <span class="prov-label">Compliance</span>
@@ -763,8 +777,8 @@
       document.getElementById('profile-avatar').textContent = initials(name);
       document.getElementById('profile-org-name').textContent = name;
 
-      const type = [org['Type'], org['Classification']].filter(Boolean).join(' · ');
-      document.getElementById('profile-type-badge').textContent = type;
+      const classification = org['Foundation Classification'] || '';
+      document.getElementById('profile-type-badge').textContent = classification;
 
       const zone = (org['Geo-Political Zone'] || '').replace(/-/g, ' ');
       if (zone) {
@@ -773,20 +787,24 @@
         document.getElementById('meta-dot-zone').style.display = 'inline';
       }
 
-      if (org['Verified']) {
+      const cacStatus = (org['CAC Registration Status'] || '').toLowerCase();
+      if (cacStatus.includes('active')) {
         document.getElementById('profile-verified-badge').style.display = 'inline-flex';
         document.getElementById('meta-dot-verified').style.display = 'inline';
       }
 
       // About
-      const about = org['About'] || org['CSR / Philanthropy Focus Areas'] || 'No description available.';
+      const about = org['CSR / Philanthropy Focus Areas'] || 'No description available.';
       document.getElementById('about-text').textContent = about;
 
       // Key details
       document.getElementById('details-grid').innerHTML = buildDetailsGrid(org);
 
       // GESI tags
-      document.getElementById('gesi-tags').innerHTML = renderTagChips(org['GESI Tags'] || '');
+      const gesiStr = org['GESI Tags'] || '';
+      const focusStr = org['CSR / Philanthropy Focus Areas'] || '';
+      const allTags = [gesiStr, focusStr].filter(Boolean).join(',');
+      document.getElementById('gesi-tags').innerHTML = renderTagChips(allTags);
 
       // Contact info
       document.getElementById('contact-info').innerHTML = buildContactInfo(org);
@@ -808,7 +826,7 @@
       const { data, error } = await db
         .from('Organizations')
         .select('*')
-        .eq('id', orgId)
+        .eq('Id', orgId)
         .single();
 
       if (error || !data) {

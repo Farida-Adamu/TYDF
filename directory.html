@@ -650,7 +650,6 @@
       <!-- State: Placeholder -->
       <div id="state-placeholder" class="state-box">
         <p class="state-desc">Use the search bar or filters to explore the directory.</p>
-        <div id="db-diag" style="margin-top:24px;width:100%;max-width:560px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;font-size:13px;text-align:left;line-height:1.7;"></div>
       </div>
 
       <!-- State: Loading -->
@@ -734,22 +733,39 @@
     }
 
     const TAG_CLASS_MAP = {
-      'nutrition':         'tag-nutrition',
-      'health':            'tag-health',
-      'education':         'tag-education',
-      'entrepreneurship':  'tag-entrepreneurship',
-      'women-led':         'tag-women-led',
-      'minority-serving':  'tag-minority-serving',
-      'poverty reduction': 'tag-poverty-reduction',
-      'agriculture':       'tag-agriculture',
-      'disability-focused':'tag-disability-focused',
-      'environment':       'tag-environment',
-      'arts & culture':    'tag-arts-culture',
-      'arts and culture':  'tag-arts-culture',
+      'nutrition':               'tag-nutrition',
+      'health':                  'tag-health',
+      'healthcare':              'tag-health',
+      'education':               'tag-education',
+      'entrepreneurship':        'tag-entrepreneurship',
+      'economic empowerment':    'tag-entrepreneurship',
+      'women-led':               'tag-women-led',
+      'women led':               'tag-women-led',
+      'minority-serving':        'tag-minority-serving',
+      'minority serving':        'tag-minority-serving',
+      'poverty reduction':       'tag-poverty-reduction',
+      'agriculture':             'tag-agriculture',
+      'disability-focused':      'tag-disability-focused',
+      'disability focused':      'tag-disability-focused',
+      'environment':             'tag-environment',
+      'environmental':           'tag-environment',
+      'arts & culture':          'tag-arts-culture',
+      'arts and culture':        'tag-arts-culture',
+      'humanitarian relief':     'tag-health',
+      'capacity building':       'tag-education',
+      'peace building':          'tag-poverty-reduction',
+      'peacebuilding':           'tag-poverty-reduction',
+      'governance':              'tag-minority-serving',
+      'human rights':            'tag-poverty-reduction',
+      'livelihood':              'tag-agriculture',
+      'food security':           'tag-nutrition',
+      'water & sanitation':      'tag-environment',
+      'water and sanitation':    'tag-environment',
+      'climate':                 'tag-environment',
     };
 
     function getTagClass(tag) {
-      return TAG_CLASS_MAP[tag.trim().toLowerCase()] || '';
+      return TAG_CLASS_MAP[tag.trim().toLowerCase()] || 'tag-default';
     }
 
     function renderTagChips(tagString) {
@@ -829,27 +845,23 @@
     // ── Render a single result card ──────────────────────────
     function renderCard(org) {
       const name           = org['Foundation Name'] || 'Unnamed Organisation';
-      const type           = org['Type'] || '';
-      const classification = org['Classification'] || '';
+      const classification = org['Foundation Classification'] || '';
       const zone           = org['Geo-Political Zone'] || '';
-      const about          = org['About'] || org['CSR / Philanthropy Focus Areas'] || '';
+      const state          = org['State'] || '';
+      const sector         = org['Sector'] || '';
       const focusTags      = org['CSR / Philanthropy Focus Areas'] || '';
-      const sectorTags     = org['Sector Tags'] || '';
       const gesiTags       = org['GESI Tags'] || '';
-      const verified       = org['Verified'];
-      const id             = org['id'];
+      const cacStatus      = org['CAC Registration Status'] || '';
+      const id             = org['Id'];
 
-      const typeStr    = [type, classification].filter(Boolean).join(' · ');
-      const zoneLabel  = zone.replace(/-/g, ' ');
-      const allTagStr  = [focusTags, sectorTags, gesiTags].filter(Boolean).join(',');
-      const tagsHtml   = renderTagChips(allTagStr);
-      const profileUrl = `profile.html?id=${encodeURIComponent(id)}`;
+      const locationStr = [state, zone.replace(/-/g, ' ')].filter(Boolean).join(', ');
+      const allTagStr   = [focusTags, gesiTags].filter(Boolean).join(',');
+      const tagsHtml    = renderTagChips(allTagStr);
+      const profileUrl  = `profile.html?id=${encodeURIComponent(id)}`;
 
-      const verifiedHtml = verified
-        ? `<span class="verified-badge">
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-             Verified
-           </span>`
+      const isActive = cacStatus.toLowerCase().includes('active');
+      const cacBadge = cacStatus
+        ? `<span style="font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;padding:3px 8px;border-radius:3px;${isActive ? 'background:#E3F3ED;color:#1A6645;border:1px solid #8BCFB0;' : 'background:#F5F5F5;color:#888;border:1px solid #D0D0D0;'}">${esc(cacStatus)}</span>`
         : '';
 
       return `
@@ -858,12 +870,11 @@
           <div class="result-top">
             <h3 class="result-name">${esc(name)}</h3>
             <div class="result-badges">
-              ${zone ? `<span class="zone-badge">${esc(zoneLabel)}</span>` : ''}
-              ${verifiedHtml}
+              ${cacBadge}
             </div>
           </div>
-          <p class="result-type">${esc(typeStr)}</p>
-          <p class="result-desc">${esc(truncate(about, 200))}</p>
+          <p class="result-type">${esc([classification, locationStr].filter(Boolean).join(' · '))}</p>
+          ${sector ? `<p class="result-desc">${esc(truncate(sector, 200))}</p>` : ''}
           <div class="result-footer">
             <div class="result-tags">${tagsHtml}</div>
             <div class="result-actions">
@@ -902,7 +913,7 @@
             org['Foundation Name'],
             org['Organisation / Parent Company'],
             org['CSR / Philanthropy Focus Areas'],
-            org['Sector Tags'],
+            org['Sector'],
             org['GESI Tags'],
             org['State'],
             org['Geo-Political Zone'],
@@ -910,7 +921,7 @@
           if (!haystack.includes(safe)) return false;
         }
         if (zones.length > 0 && !zones.includes(org['Geo-Political Zone'])) return false;
-        if (classifications.length > 0 && !classifications.includes(org['Classification'])) return false;
+        if (classifications.length > 0 && !classifications.includes(org['Foundation Classification'])) return false;
         for (const tag of gesiTags) {
           if (!(org['GESI Tags'] || '').toLowerCase().includes(tag.toLowerCase())) return false;
         }
@@ -923,17 +934,16 @@
       let query = db.from('Organizations').select('*');
 
       if (zones.length > 0)           query = query.in('Geo-Political Zone', zones);
-      if (classifications.length > 0) query = query.in('Classification', classifications);
+      if (classifications.length > 0) query = query.in('Foundation Classification', classifications);
       for (const tag of gesiTags)     query = query.ilike('GESI Tags', `%${tag}%`);
 
       if (term) {
-        // Escape LIKE special chars, then build a broad or filter across all text columns
         const safe = term.replace(/%/g, '\\%').replace(/_/g, '\\_');
         query = query.or([
           `"Foundation Name".ilike.%${safe}%`,
           `"Organisation / Parent Company".ilike.%${safe}%`,
           `"CSR / Philanthropy Focus Areas".ilike.%${safe}%`,
-          `"Sector Tags".ilike.%${safe}%`,
+          `"Sector".ilike.%${safe}%`,
           `"GESI Tags".ilike.%${safe}%`,
           `"State".ilike.%${safe}%`,
           `"Geo-Political Zone".ilike.%${safe}%`,
@@ -1028,56 +1038,6 @@
       });
     });
 
-    // ── Connection diagnostic (runs on load) ─────────────────
-    async function runDiagnostic() {
-      const box = document.getElementById('db-diag');
-      if (!box) return;
-
-      const line = (label, val, ok) =>
-        `<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px;">
-           <span style="color:${ok === true ? '#1B6645' : ok === false ? '#B02020' : '#888'};flex-shrink:0;font-weight:700;">${ok === true ? '✓' : ok === false ? '✗' : '·'}</span>
-           <span><strong>${label}:</strong> ${val}</span>
-         </div>`;
-
-      box.innerHTML = `<div style="font-weight:700;margin-bottom:12px;color:var(--text-dark);">🔌 Supabase Connection Diagnostic</div>`;
-
-      // Test 1 — can we reach Supabase at all?
-      const tableNames = ['Organizations', 'Organisations', 'organizations', 'organisations'];
-      let foundTable = null;
-      let firstError = null;
-
-      for (const name of tableNames) {
-        const { data, error } = await db.from(name).select('*').limit(1);
-        if (!error) {
-          foundTable = name;
-          const cols = data.length > 0 ? Object.keys(data[0]) : [];
-          box.innerHTML += line(`Table "${name}"`, `✅ Connected — columns: <code style="background:#f0f0f0;padding:2px 4px;border-radius:3px;">${cols.join(', ')}</code>`, true);
-          break;
-        } else {
-          if (!firstError) firstError = error;
-          const msg = error.message || error.code || JSON.stringify(error);
-          box.innerHTML += line(`Table "${name}"`, `<span style="color:#B02020;">${msg}</span>`, false);
-        }
-      }
-
-      if (foundTable) {
-        box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#F5F9F5;border-radius:6px;color:#1B6645;font-weight:600;">
-          ✅ Connection working — table name is <strong>"${foundTable}"</strong>.<br>
-          <span style="font-weight:400;font-size:12px;">Share this screenshot so the code can be updated to use the correct column names above.</span>
-        </div>`;
-      } else {
-        box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#FEF0F0;border-radius:6px;color:#B02020;font-weight:600;">
-          ✗ Could not connect to any table variation.<br>
-          <span style="font-weight:400;">Error: ${firstError ? (firstError.message || firstError.hint || JSON.stringify(firstError)) : 'Unknown'}</span><br><br>
-          <strong>Things to check in Supabase dashboard:</strong><br>
-          1. Project Settings → API → make sure "Data API" is enabled<br>
-          2. Table Editor → your table → click the ⚙ icon → enable "Expose in API"<br>
-          3. Authentication → Policies → confirm RLS is disabled on the table
-        </div>`;
-      }
-    }
-
-    runDiagnostic();
   </script>
 
 </body>
