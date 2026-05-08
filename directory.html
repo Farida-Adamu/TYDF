@@ -650,6 +650,7 @@
       <!-- State: Placeholder -->
       <div id="state-placeholder" class="state-box">
         <p class="state-desc">Use the search bar or filters to explore the directory.</p>
+        <div id="db-diag" style="margin-top:24px;width:100%;max-width:560px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;font-size:13px;text-align:left;line-height:1.7;"></div>
       </div>
 
       <!-- State: Loading -->
@@ -1026,6 +1027,65 @@
         label.closest('.filter-group').classList.toggle('collapsed');
       });
     });
+
+    // ── Connection diagnostic (runs on load) ─────────────────
+    async function runDiagnostic() {
+      const box = document.getElementById('db-diag');
+      if (!box) return;
+
+      const line = (label, val, ok) =>
+        `<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px;">
+           <span style="color:${ok === true ? '#1B6645' : ok === false ? '#B02020' : '#888'};flex-shrink:0;font-weight:700;">${ok === true ? '✓' : ok === false ? '✗' : '·'}</span>
+           <span><strong>${label}:</strong> ${val}</span>
+         </div>`;
+
+      box.innerHTML = `<div style="font-weight:700;margin-bottom:12px;color:var(--text-dark);">🔌 Supabase Connection Diagnostic</div>`;
+
+      // Test 1 — can we reach Supabase at all?
+      const tableNames = ['Organizations', 'Organisations', 'organizations', 'organisations'];
+      let foundTable = null;
+      let firstError = null;
+
+      for (const name of tableNames) {
+        const { data, error } = await db.from(name).select('id').limit(1);
+        if (!error) {
+          foundTable = name;
+          box.innerHTML += line(`Table "${name}"`, `✅ Reachable — returned ${data.length} row(s)`, true);
+          break;
+        } else {
+          if (!firstError) firstError = error;
+          const msg = error.message || error.code || JSON.stringify(error);
+          box.innerHTML += line(`Table "${name}"`, `<span style="color:#B02020;">${msg}</span>`, false);
+        }
+      }
+
+      if (foundTable) {
+        // Test 2 — fetch a full row to see column names
+        const { data: sample, error: sErr } = await db.from(foundTable).select('*').limit(1);
+        if (sample && sample.length > 0) {
+          const cols = Object.keys(sample[0]);
+          box.innerHTML += line('Columns found', cols.join(', '), null);
+          box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#F5F9F5;border-radius:6px;color:#1B6645;font-weight:600;">
+            ✅ Connection working. Table is <strong>"${foundTable}"</strong>. Update the code if different from current name.
+          </div>`;
+        } else if (sErr) {
+          box.innerHTML += line('Row fetch error', sErr.message || JSON.stringify(sErr), false);
+        } else {
+          box.innerHTML += line('Rows', 'Table exists but appears to be empty', null);
+        }
+      } else {
+        box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#FEF0F0;border-radius:6px;color:#B02020;font-weight:600;">
+          ✗ Could not connect to any table variation.<br>
+          <span style="font-weight:400;">Error: ${firstError ? (firstError.message || firstError.hint || JSON.stringify(firstError)) : 'Unknown'}</span><br><br>
+          <strong>Things to check in Supabase dashboard:</strong><br>
+          1. Project Settings → API → make sure "Data API" is enabled<br>
+          2. Table Editor → your table → click the ⚙ icon → enable "Expose in API"<br>
+          3. Authentication → Policies → confirm RLS is disabled on the table
+        </div>`;
+      }
+    }
+
+    runDiagnostic();
   </script>
 
 </body>
