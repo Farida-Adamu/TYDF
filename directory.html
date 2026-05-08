@@ -1047,10 +1047,11 @@
       let firstError = null;
 
       for (const name of tableNames) {
-        const { data, error } = await db.from(name).select('id').limit(1);
+        const { data, error } = await db.from(name).select('*').limit(1);
         if (!error) {
           foundTable = name;
-          box.innerHTML += line(`Table "${name}"`, `✅ Reachable — returned ${data.length} row(s)`, true);
+          const cols = data.length > 0 ? Object.keys(data[0]) : [];
+          box.innerHTML += line(`Table "${name}"`, `✅ Connected — columns: <code style="background:#f0f0f0;padding:2px 4px;border-radius:3px;">${cols.join(', ')}</code>`, true);
           break;
         } else {
           if (!firstError) firstError = error;
@@ -1060,19 +1061,10 @@
       }
 
       if (foundTable) {
-        // Test 2 — fetch a full row to see column names
-        const { data: sample, error: sErr } = await db.from(foundTable).select('*').limit(1);
-        if (sample && sample.length > 0) {
-          const cols = Object.keys(sample[0]);
-          box.innerHTML += line('Columns found', cols.join(', '), null);
-          box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#F5F9F5;border-radius:6px;color:#1B6645;font-weight:600;">
-            ✅ Connection working. Table is <strong>"${foundTable}"</strong>. Update the code if different from current name.
-          </div>`;
-        } else if (sErr) {
-          box.innerHTML += line('Row fetch error', sErr.message || JSON.stringify(sErr), false);
-        } else {
-          box.innerHTML += line('Rows', 'Table exists but appears to be empty', null);
-        }
+        box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#F5F9F5;border-radius:6px;color:#1B6645;font-weight:600;">
+          ✅ Connection working — table name is <strong>"${foundTable}"</strong>.<br>
+          <span style="font-weight:400;font-size:12px;">Share this screenshot so the code can be updated to use the correct column names above.</span>
+        </div>`;
       } else {
         box.innerHTML += `<div style="margin-top:12px;padding:10px;background:#FEF0F0;border-radius:6px;color:#B02020;font-weight:600;">
           ✗ Could not connect to any table variation.<br>
