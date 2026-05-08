@@ -10,7 +10,7 @@
     /* ── HERO ─────────────────────────────────────────────── */
     .hero {
       background: var(--green);
-      padding: 88px 48px 96px;
+      padding: 96px 48px 108px;
       position: relative;
       overflow: hidden;
     }
@@ -48,198 +48,17 @@
       font-size: 16px;
       color: rgba(255,255,255,0.72);
       line-height: 1.65;
-      margin-bottom: 44px;
+      margin-bottom: 48px;
       max-width: 520px;
-    }
-
-    .hero-search {
-      display: flex;
-      align-items: center;
-      background: var(--white);
-      border-radius: 8px;
-      overflow: hidden;
-      max-width: 580px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-
-    .hero-search-icon {
-      padding: 0 16px;
-      color: #AAA;
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-search input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      color: var(--text-dark);
-      padding: 16px 0;
-      background: transparent;
-    }
-
-    .hero-search input::placeholder { color: #BBBAB5; }
-
-    .hero-search-btn {
-      background: var(--amber);
-      color: var(--white);
-      border: none;
-      padding: 16px 28px;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background var(--transition);
-      white-space: nowrap;
-      letter-spacing: 0.2px;
-    }
-
-    .hero-search-btn:hover { background: var(--amber-light); }
-
-    /* ── STATS BAR ────────────────────────────────────────── */
-    .stats-bar {
-      background: var(--amber-pale);
-      border-bottom: 2px solid var(--amber-muted);
-      display: flex;
-      align-items: stretch;
-    }
-
-    .stat-item {
-      flex: 1;
-      padding: 32px 48px;
-      border-right: 1px solid var(--amber-muted);
-    }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-number {
-      font-family: var(--font-serif);
-      font-size: 34px;
-      font-weight: 700;
-      color: var(--amber);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .stat-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: var(--text-mid);
-    }
-
-    /* ── BROWSE PREVIEW ───────────────────────────────────── */
-    .browse-section {
-      padding: 72px 48px;
-      background: var(--cream);
-    }
-
-    .browse-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .browse-subhead {
-      font-size: 15px;
-      color: var(--text-muted);
-      margin-bottom: 36px;
-    }
-
-    /* Preview list */
-    .preview-list {
-      background: var(--white);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-
-    .preview-row {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-      position: relative;
-    }
-
-    .preview-row::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--amber);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.25s ease;
-    }
-
-    .preview-row:hover::before { transform: scaleY(1); }
-    .preview-row:hover { background: #FDFBF8; }
-    .preview-row:last-child { border-bottom: none; }
-
-    .preview-main { flex: 1; min-width: 0; }
-
-    .preview-name {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .preview-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      letter-spacing: 0.2px;
-    }
-
-    .preview-tags {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .preview-link {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--amber);
-      white-space: nowrap;
-      margin-left: 8px;
-      transition: color var(--transition);
-      flex-shrink: 0;
-    }
-    .preview-link:hover { color: var(--amber-light); }
-
-    /* CTA row */
-    .browse-cta {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .browse-cta-note {
-      font-size: 13px;
-      color: var(--text-muted);
     }
 
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 900px) {
       .hero-heading { font-size: 42px; }
-      .preview-tags { display: none; }
     }
 
     @media (max-width: 640px) {
-      .hero { padding: 56px 24px 64px; }
-      .browse-section { padding: 48px 24px; }
-      .stat-item { padding: 24px; }
+      .hero { padding: 64px 24px 80px; }
     }
   </style>
 </head>
@@ -251,7 +70,7 @@
       <a href="index.html"><div class="nav-logo-mark">NP</div></a>
     </div>
     <div class="nav-links">
-      <a href="directory.html" class="active">Directory</a>
+      <a href="directory.html">Directory</a>
       <a href="#">About</a>
       <a href="#">Methodology</a>
       <button class="btn-submit">Submit Organisation</button>
@@ -263,122 +82,8 @@
     <div class="hero-inner">
       <h1 class="hero-heading">Nigeria's <em>Philanthropy</em><br>Database.</h1>
       <p class="hero-sub">A centralized, searchable registry of foundations and trusts operating across Nigeria's six geopolitical zones. Built for funders, policymakers, and civil society.</p>
-      <div class="hero-search">
-        <span class="hero-search-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </span>
-        <input type="text" placeholder="Search by name, sector, or location…">
-        <button class="hero-search-btn">Search Registry</button>
-      </div>
+      <a href="directory.html" class="btn-primary" style="font-size:15px; padding:14px 28px;">Explore Full Directory &nbsp;→</a>
     </div>
-  </section>
-
-  <!-- ═══ STATS BAR ═══════════════════════════════════════════ -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-number">247</div>
-      <div class="stat-label">Verified Organisations</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">14</div>
-      <div class="stat-label">Sectors Covered</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">₦2.4B</div>
-      <div class="stat-label">Reported Annual Giving</div>
-    </div>
-  </div>
-
-  <!-- ═══ BROWSE ORGANISATIONS ════════════════════════════════ -->
-  <section class="browse-section">
-    <div class="browse-header">
-      <h2 class="section-title">Featured Organisations</h2>
-    </div>
-    <p class="browse-subhead">A selection from across Nigeria's philanthropic landscape.</p>
-
-    <div class="preview-list">
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">Aliko Dangote Foundation</span>
-          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South West</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-nutrition">Nutrition</span>
-          <span class="tag tag-health">Health</span>
-          <span class="tag tag-education">Education</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">TY Danjuma Foundation</span>
-          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South South</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-poverty-reduction">Poverty Reduction</span>
-          <span class="tag tag-minority-serving">Minority-Serving</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">Tony Elumelu Foundation</span>
-          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South East</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-entrepreneurship">Entrepreneurship</span>
-          <span class="tag tag-women-led">Women-Led</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">Herbert Macaulay Trust</span>
-          <span class="preview-meta">Trust · Family &nbsp;·&nbsp; North West</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-education">Education</span>
-          <span class="tag tag-women-led">Women-Led</span>
-          <span class="tag tag-disability-focused">Disability-Focused</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">Cocoa Foundation of Nigeria</span>
-          <span class="preview-meta">Foundation · Corporate &nbsp;·&nbsp; North Central</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-agriculture">Agriculture</span>
-          <span class="tag tag-minority-serving">Minority-Serving</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-      <div class="preview-row">
-        <div class="preview-main">
-          <span class="preview-name">Olusegun Aganga Foundation</span>
-          <span class="preview-meta">Foundation · Private &nbsp;·&nbsp; South West</span>
-        </div>
-        <div class="preview-tags">
-          <span class="tag tag-health">Health</span>
-          <span class="tag tag-women-led">Women-Led</span>
-        </div>
-        <a href="profile.html" class="preview-link">View →</a>
-      </div>
-
-    </div>
-
-    <div class="browse-cta">
-      <a href="directory.html" class="btn-primary">Explore Full Directory &nbsp;→</a>
-      <span class="browse-cta-note">247 verified organisations across 6 geopolitical zones</span>
-    </div>
-
   </section>
 
   <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
