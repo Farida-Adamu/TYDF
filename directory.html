@@ -649,9 +649,7 @@
 
       <!-- State: Placeholder -->
       <div id="state-placeholder" class="state-box">
-        <div class="state-icon">🔍</div>
-        <p class="state-title">Search the Directory</p>
-        <p class="state-desc">Enter a name, sector, location, or GESI tag above and click Search to explore Nigeria's philanthropic organisations.</p>
+        <p class="state-desc">Use the search bar or filters to explore the directory.</p>
       </div>
 
       <!-- State: Loading -->
@@ -835,13 +833,14 @@
       const zone           = org['Geo-Political Zone'] || '';
       const about          = org['About'] || org['CSR / Philanthropy Focus Areas'] || '';
       const focusTags      = org['CSR / Philanthropy Focus Areas'] || '';
+      const sectorTags     = org['Sector Tags'] || '';
       const gesiTags       = org['GESI Tags'] || '';
       const verified       = org['Verified'];
       const id             = org['id'];
 
       const typeStr    = [type, classification].filter(Boolean).join(' · ');
       const zoneLabel  = zone.replace(/-/g, ' ');
-      const allTagStr  = [focusTags, gesiTags].filter(Boolean).join(',');
+      const allTagStr  = [focusTags, sectorTags, gesiTags].filter(Boolean).join(',');
       const tagsHtml   = renderTagChips(allTagStr);
       const profileUrl = `profile.html?id=${encodeURIComponent(id)}`;
 
@@ -895,15 +894,17 @@
 
     // ── Client-side filter fallback ──────────────────────────
     function filterClientSide(data, term, zones, classifications, gesiTags) {
-      const safe = term.toLowerCase();
+      const safe = (term || '').toLowerCase();
       return data.filter(org => {
         if (term) {
           const haystack = [
             org['Foundation Name'],
-            org['Geo-Political Zone'],
+            org['Organisation / Parent Company'],
             org['CSR / Philanthropy Focus Areas'],
-            org['About'],
+            org['Sector Tags'],
             org['GESI Tags'],
+            org['State'],
+            org['Geo-Political Zone'],
           ].map(v => (v || '').toLowerCase()).join(' ');
           if (!haystack.includes(safe)) return false;
         }
@@ -918,34 +919,37 @@
 
     // ── Fetch from Supabase ──────────────────────────────────
     async function fetchResults(term, zones, classifications, gesiTags) {
-      let query = db.from('organisations').select('*');
+      let query = db.from('Organizations').select('*');
 
       if (zones.length > 0)           query = query.in('Geo-Political Zone', zones);
       if (classifications.length > 0) query = query.in('Classification', classifications);
       for (const tag of gesiTags)     query = query.ilike('GESI Tags', `%${tag}%`);
 
+      if (term) {
+        // Escape LIKE special chars, then build a broad or filter across all text columns
+        const safe = term.replace(/%/g, '\\%').replace(/_/g, '\\_');
+        query = query.or([
+          `"Foundation Name".ilike.%${safe}%`,
+          `"Organisation / Parent Company".ilike.%${safe}%`,
+          `"CSR / Philanthropy Focus Areas".ilike.%${safe}%`,
+          `"Sector Tags".ilike.%${safe}%`,
+          `"GESI Tags".ilike.%${safe}%`,
+          `"State".ilike.%${safe}%`,
+          `"Geo-Political Zone".ilike.%${safe}%`,
+        ].join(','));
+      }
+
       const { data, error } = await query;
 
       if (error) {
-        // Full client-side fallback
-        const { data: all, error: err2 } = await db.from('organisations').select('*');
+        console.error('Supabase query error:', error);
+        // Full client-side fallback: fetch everything unfiltered then filter locally
+        const { data: all, error: err2 } = await db.from('Organizations').select('*');
         if (err2) throw err2;
         return filterClientSide(all || [], term, zones, classifications, gesiTags);
       }
 
-      // Text search client-side (safest for columns with spaces)
-      if (!term) return data || [];
-      const safe = term.toLowerCase();
-      return (data || []).filter(org => {
-        const haystack = [
-          org['Foundation Name'],
-          org['Geo-Political Zone'],
-          org['CSR / Philanthropy Focus Areas'],
-          org['About'],
-          org['GESI Tags'],
-        ].map(v => (v || '').toLowerCase()).join(' ');
-        return haystack.includes(safe);
-      });
+      return data || [];
     }
 
     // ── Main search entry point ──────────────────────────────
