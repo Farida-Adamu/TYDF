@@ -970,8 +970,9 @@
       const classifications = getChecked('classification');
       const gesiTags        = getChecked('gesi');
 
-      // Require at least a search term to show results
-      if (!term) {
+      // Require at least a search term OR an active filter
+      const hasFilters = zones.length > 0 || classifications.length > 0 || gesiTags.length > 0;
+      if (!term && !hasFilters) {
         setState('placeholder');
         document.getElementById('active-filters-bar').style.display = 'none';
         return;
@@ -1002,11 +1003,9 @@
       if (e.key === 'Enter') doSearch();
     });
 
-    // Filter changes re-run search if a term is already present
+    // Filter changes always re-run search
     document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener('change', () => {
-        if (document.getElementById('search-input').value.trim()) doSearch();
-      });
+      cb.addEventListener('change', doSearch);
     });
 
     // Sort re-renders from cache without re-fetching
