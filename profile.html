@@ -806,7 +806,7 @@
       }
 
       const { data, error } = await db
-        .from('Organisations')
+        .from('Organizations')
         .select('*')
         .eq('id', orgId)
         .single();

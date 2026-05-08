@@ -919,7 +919,7 @@
 
     // ── Fetch from Supabase ──────────────────────────────────
     async function fetchResults(term, zones, classifications, gesiTags) {
-      let query = db.from('Organisations').select('*');
+      let query = db.from('Organizations').select('*');
 
       if (zones.length > 0)           query = query.in('Geo-Political Zone', zones);
       if (classifications.length > 0) query = query.in('Classification', classifications);
@@ -944,7 +944,7 @@
       if (error) {
         console.error('Supabase query error:', error);
         // Full client-side fallback: fetch everything unfiltered then filter locally
-        const { data: all, error: err2 } = await db.from('Organisations').select('*');
+        const { data: all, error: err2 } = await db.from('Organizations').select('*');
         if (err2) throw err2;
         return filterClientSide(all || [], term, zones, classifications, gesiTags);
       }
