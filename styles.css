@@ -397,7 +397,7 @@ img { display: block; max-width: 100%; }
    FOOTER — multi-column (directory / profile pages)
    ========================================================= */
 .site-footer {
-  background: var(--green);
+  background: #0F2340;
 }
 
 .footer-main {
@@ -406,6 +406,13 @@ img { display: block; max-width: 100%; }
   gap: 48px;
   padding: 56px 48px 48px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-brand-logo {
+  height: 40px;
+  width: auto;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .footer-brand-name {
@@ -427,7 +434,7 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: var(--amber);
+  color: #6BA3D6;
   margin-bottom: 16px;
 }
 
@@ -439,7 +446,7 @@ img { display: block; max-width: 100%; }
 
 .footer-links a {
   font-size: 14px;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6);
   transition: color var(--transition);
 }
 
@@ -451,7 +458,16 @@ img { display: block; max-width: 100%; }
   letter-spacing: 1.2px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.35);
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.footer-commissioned-logo {
+  height: 36px;
+  width: auto;
+  display: block;
+  margin-bottom: 20px;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
 }
 
 .footer-commissioned-name {
@@ -480,7 +496,7 @@ img { display: block; max-width: 100%; }
 
 /* Copyright bar */
 .footer-bar {
-  background: var(--green-dark);
+  background: #09182E;
   padding: 16px 48px;
   display: flex;
   align-items: center;
