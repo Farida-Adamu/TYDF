@@ -397,7 +397,7 @@ img { display: block; max-width: 100%; }
    FOOTER — multi-column (directory / profile pages)
    ========================================================= */
 .site-footer {
-  background: #0F2340;
+  background: var(--blue);
 }
 
 .footer-main {
@@ -434,7 +434,7 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: #6BA3D6;
+  color: rgba(255,255,255,0.5);
   margin-bottom: 16px;
 }
 
@@ -496,7 +496,7 @@ img { display: block; max-width: 100%; }
 
 /* Copyright bar */
 .footer-bar {
-  background: #09182E;
+  background: var(--blue-dark);
   padding: 16px 48px;
   display: flex;
   align-items: center;
