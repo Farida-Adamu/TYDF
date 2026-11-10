@@ -4,12 +4,14 @@
    ========================================================= */
 
 /* --- Google Fonts --- */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&display=swap');
 
 /* --- Reset & Base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  --blue:         #1B6EC2;
+  --blue-dark:    #145BA3;
   --green:        #1E3D2F;
   --green-dark:   #152B21;
   --green-deeper: #0D1F16;
@@ -20,10 +22,12 @@
   --cream:        #F5EFE6;
   --cream-light:  #FAF7F2;
   --white:        #FFFFFF;
+  --near-black:   #111827;
   --text-dark:    #1A1A1A;
   --text-mid:     #4A4A4A;
   --text-muted:   #888888;
   --border:       #E2D9CE;
+  --border-light: #E5E7EB;
   --card-border:  #E8E0D5;
   --font-serif:   'Playfair Display', Georgia, serif;
   --font-sans:    'DM Sans', system-ui, sans-serif;
@@ -55,10 +59,10 @@ img { display: block; max-width: 100%; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--green);
-  border-bottom: 3px solid var(--amber);
+  background: var(--white);
+  border-bottom: 1px solid var(--border-light);
   padding: 0 48px;
-  height: 64px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,13 +71,28 @@ img { display: block; max-width: 100%; }
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
+.nav-logo-img {
+  height: 46px;
+  width: auto;
+  display: block;
+}
+
+.nav-logo-text {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--near-black);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+/* kept for pages that haven't yet swapped to the img logo */
 .nav-logo-mark {
   width: 38px;
   height: 38px;
-  background: var(--amber);
+  background: var(--blue);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -89,37 +108,46 @@ img { display: block; max-width: 100%; }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 10px;
 }
 
 .nav-links a {
-  color: rgba(255,255,255,0.85);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  transition: color var(--transition);
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: 1.5px solid var(--blue);
+  padding: 8px 18px;
+  border-radius: 100px;
+  transition: all var(--transition);
 }
 
 .nav-links a:hover,
 .nav-links a.active {
+  background: var(--blue);
   color: var(--white);
 }
 
 .btn-submit {
-  background: var(--amber);
-  color: var(--white);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  background: transparent;
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
+  padding: 8px 18px;
+  border-radius: 100px;
   font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background var(--transition);
-  letter-spacing: 0.2px;
+  transition: all var(--transition);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
-.btn-submit:hover { background: var(--amber-light); }
+.btn-submit:hover {
+  background: var(--blue);
+  color: var(--white);
+}
 
 /* =========================================================
    BUTTONS
@@ -366,7 +394,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* =========================================================
-   FOOTER
+   FOOTER — multi-column (directory / profile pages)
    ========================================================= */
 .site-footer {
   background: var(--green);
@@ -450,7 +478,6 @@ img { display: block; max-width: 100%; }
   color: var(--white);
 }
 
-
 /* Copyright bar */
 .footer-bar {
   background: var(--green-dark);
@@ -475,16 +502,50 @@ img { display: block; max-width: 100%; }
 }
 
 /* =========================================================
+   FOOTER — simple (homepage / about page)
+   ========================================================= */
+.footer-simple {
+  background: var(--white);
+  border-top: 1px solid var(--border-light);
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-simple-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-social a {
+  color: var(--text-muted);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.footer-social a:hover { color: var(--text-dark); }
+
+/* =========================================================
    RESPONSIVE HELPERS
    ========================================================= */
 @media (max-width: 1024px) {
   .site-nav { padding: 0 24px; }
   .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; padding: 40px 24px; }
+  .footer-simple { padding: 20px 24px; }
 }
 
 @media (max-width: 768px) {
   .site-nav { padding: 0 16px; }
-  .nav-links { gap: 20px; }
+  .nav-links { gap: 6px; }
   .footer-main { grid-template-columns: 1fr; }
   .footer-bar { flex-direction: column; gap: 8px; text-align: center; }
+  .footer-simple { flex-direction: column; gap: 12px; text-align: center; }
 }

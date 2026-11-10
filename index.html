@@ -5,74 +5,180 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nigeria Philanthropy Registry</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
+
+    body {
+      background-color: #F9FAFB;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
 
     /* ── HERO ─────────────────────────────────────────────── */
     .hero {
-      background: var(--green);
-      padding: 96px 48px 108px;
-      position: relative;
-      overflow: hidden;
+      padding: 96px 72px 88px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      right: -60px;
-      top: -60px;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,117,26,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-inner { max-width: 680px; position: relative; z-index: 1; }
 
     .hero-heading {
       font-family: var(--font-serif);
-      font-size: 56px;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 24px;
-      letter-spacing: -0.5px;
-    }
-
-    .hero-heading em {
-      font-style: italic;
-      color: var(--amber);
+      font-size: 80px;
+      font-weight: 900;
+      color: var(--near-black);
+      line-height: 1.0;
+      margin-bottom: 28px;
+      letter-spacing: -1px;
     }
 
     .hero-sub {
       font-size: 16px;
-      color: rgba(255,255,255,0.72);
+      color: var(--text-mid);
       line-height: 1.65;
       margin-bottom: 48px;
-      max-width: 520px;
+      max-width: 560px;
     }
 
+    .btn-explore {
+      display: inline-block;
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+      background: transparent;
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .btn-explore:hover {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    /* ── STATS BAR ────────────────────────────────────────── */
+    .stats-bar {
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      background: var(--white);
+      padding: 40px 72px;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .stat-item {}
+
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 900;
+      color: var(--near-black);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    /* ── EXPLORE BY IMPACT AREA ───────────────────────────── */
+    .impact-section {
+      padding: 72px 72px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .impact-heading {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--near-black);
+      margin-bottom: 36px;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .impact-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 32px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: box-shadow var(--transition), transform var(--transition);
+      display: block;
+    }
+
+    .impact-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .impact-card-name {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--near-black);
+      margin-bottom: 10px;
+    }
+
+    .impact-card-count {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .impact-card-count.loading {
+      background: #F0F0F0;
+      border-radius: 3px;
+      color: transparent;
+      width: 100px;
+      animation: shimmer 1.4s infinite;
+      background-size: 200% 100%;
+      background-image: linear-gradient(90deg, #F0F0F0 25%, #E0E0E0 50%, #F0F0F0 75%);
+    }
+
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
     /* ── RESPONSIVE ───────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .hero-heading { font-size: 42px; }
+    @media (max-width: 1024px) {
+      .hero { padding: 72px 40px 64px; }
+      .hero-heading { font-size: 60px; }
+      .stats-bar { padding: 32px 40px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .impact-section { padding: 56px 40px 64px; }
+      .impact-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 640px) {
-      .hero { padding: 64px 24px 80px; }
+      .hero { padding: 48px 24px 56px; }
+      .hero-heading { font-size: 44px; }
+      .stats-bar { padding: 28px 24px; }
+      .impact-section { padding: 40px 24px 56px; }
+      .stat-number { font-size: 48px; }
     }
 
-    /* ── FOOTER — off-white override for homepage only ──────── */
-    .site-footer                { background: var(--cream); border-top: 1px solid var(--border); }
-    .footer-brand-name          { color: var(--text-dark); }
-    .footer-brand-desc          { color: var(--text-mid); }
-    .footer-col-label           { color: var(--amber); }
-    .footer-links a             { color: var(--text-mid); }
-    .footer-links a:hover       { color: var(--text-dark); }
-    .footer-commissioned        { color: var(--text-muted); }
-    .footer-commissioned-name   { color: var(--text-dark); }
-    .footer-bar                 { background: var(--cream-light); border-top: 1px solid var(--border); }
-    .footer-bar-text            { color: var(--text-muted); }
-    .footer-bar-ndpr            { color: var(--text-muted); }
   </style>
 </head>
 <body>
@@ -80,63 +186,153 @@
   <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
   <nav class="site-nav">
     <div class="nav-logo">
-      <a href="index.html"><div class="nav-logo-mark">NP</div></a>
+      <a href="index.html">
+        <img src="tydf-logo.png" class="nav-logo-img" alt="TY Danjuma Foundation"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="nav-logo-text" style="display:none;">TY Danjuma<br>Foundation</span>
+      </a>
     </div>
     <div class="nav-links">
       <a href="directory.html">Directory</a>
-      <a href="#">About</a>
-      <a href="#">Methodology</a>
+      <a href="about.html">About</a>
       <button class="btn-submit">Submit Organisation</button>
     </div>
   </nav>
 
   <!-- ═══ HERO ════════════════════════════════════════════════ -->
   <section class="hero">
-    <div class="hero-inner">
-      <h1 class="hero-heading">Nigeria's <em>Philanthropy</em><br>Database.</h1>
-      <p class="hero-sub">A centralized, searchable registry of foundations and trusts operating across Nigeria's six geopolitical zones. Built for funders, policymakers, and civil society.</p>
-      <a href="directory.html" class="btn-primary" style="font-size:15px; padding:14px 28px;">Explore Full Directory &nbsp;→</a>
-    </div>
+    <h1 class="hero-heading">Nigeria's Philanthropy<br>Database</h1>
+    <p class="hero-sub">A centralized, searchable registry of foundations and trusts operating across Nigeria's six geopolitical zones. Built for coordination, transparency, and collaboration by funders, policymakers, and civil society.</p>
+    <a href="directory.html" class="btn-explore">Explore Full Directory</a>
   </section>
 
-  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="footer-main">
-      <div>
-        <div class="footer-brand-name">Nigeria Philanthropy Registry</div>
-        <p class="footer-brand-desc">A centralized digital database of philanthropic foundations and trusts operating in Nigeria. Built for coordination, transparency, and collaboration.</p>
+  <!-- ═══ STATS BAR ═══════════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div id="stat-total" class="stat-number">—</div>
+        <div class="stat-label">Registered Organisations</div>
       </div>
-      <div>
-        <div class="footer-col-label">Registry</div>
-        <nav class="footer-links">
-          <a href="directory.html">Browse All</a>
-          <a href="directory.html">By Zone</a>
-          <a href="directory.html">By Sector</a>
-          <a href="directory.html">GESI Filter</a>
-          <a href="#">Export Data</a>
-        </nav>
+      <div class="stat-item">
+        <div id="stat-states" class="stat-number">—</div>
+        <div class="stat-label">States Covered</div>
       </div>
-      <div>
-        <div class="footer-col-label">About</div>
-        <nav class="footer-links">
-          <a href="#">About the Registry</a>
-          <a href="#">Methodology</a>
-          <a href="#">Data Governance</a>
-          <a href="#">NDPR Compliance</a>
-          <a href="#">Submit / Update Record</a>
-        </nav>
+      <div class="stat-item">
+        <div id="stat-zones" class="stat-number">6</div>
+        <div class="stat-label">Geopolitical Zones</div>
       </div>
-      <div style="text-align:right;">
-        <div class="footer-commissioned">Commissioned by</div>
-        <div class="footer-commissioned-name">TY Danjuma Foundation</div>
+      <div class="stat-item">
+        <div id="stat-sectors" class="stat-number">—</div>
+        <div class="stat-label">Impact Sectors</div>
       </div>
     </div>
+  </div>
 
-    <div class="footer-bar">
-      <span class="footer-bar-text">© 2026 Nigeria Philanthropy Registry &nbsp;·&nbsp; Built by Gatefield</span>
-      <span class="footer-bar-ndpr">NDPR Compliant</span>
+  <!-- ═══ EXPLORE BY IMPACT AREA ══════════════════════════════ -->
+  <div class="impact-section">
+    <h2 class="impact-heading">Explore by Impact Area</h2>
+    <div id="impact-grid" class="impact-grid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer-simple">
+    <span class="footer-simple-text">© 2026 Nigeria Philanthropy Registry</span>
+    <div class="footer-social">
+      <!-- Instagram -->
+      <a href="#" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <!-- X / Twitter -->
+      <a href="#" aria-label="X (Twitter)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <!-- Facebook -->
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
     </div>
   </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://snmwbvqhomnkeuyrenkg.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNubXdidnFob21ua2V1eXJlbmtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNjgwNjYsImV4cCI6MjA5MzY0NDA2Nn0.mcPU500-Y4YeUgx92N0zuNnwHjD37xI-YgAQJk1tL7w';
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const IMPACT_CATEGORIES = [
+      { name: 'Education',           query: 'Education' },
+      { name: 'Health',              query: 'Health' },
+      { name: 'Agriculture',         query: 'Agriculture' },
+      { name: 'Women & Girls',       query: 'Women' },
+      { name: 'Youth Development',   query: 'Youth' },
+      { name: 'Governance',          query: 'Governance' },
+      { name: 'Climate',             query: 'Climate' },
+      { name: 'Disability Inclusion',query: 'Disability' },
+      { name: 'Human Rights',        query: 'Human Rights' },
+      { name: 'Peacebuilding',       query: 'Peace' },
+    ];
+
+    async function loadStats() {
+      // Fetch all orgs for counts (lightweight — just State column)
+      const { data: orgs } = await db
+        .from('Organizations')
+        .select('State');
+
+      if (orgs) {
+        const total  = orgs.length;
+        const states = new Set(orgs.map(r => r['State']).filter(Boolean)).size;
+
+        document.getElementById('stat-total').textContent  = total.toLocaleString() + '+';
+        document.getElementById('stat-states').textContent = states;
+        document.getElementById('stat-sectors').textContent = IMPACT_CATEGORIES.length + '+';
+      }
+    }
+
+    async function loadImpactCards() {
+      const grid = document.getElementById('impact-grid');
+
+      // Render skeleton cards immediately
+      grid.innerHTML = IMPACT_CATEGORIES.map(cat => `
+        <div class="impact-card">
+          <div class="impact-card-name">${cat.name}</div>
+          <div class="impact-card-count loading">Loading</div>
+        </div>`).join('');
+
+      // Fetch counts in parallel
+      const counts = await Promise.all(
+        IMPACT_CATEGORIES.map(async (cat, i) => {
+          const { count } = await db
+            .from('Organizations')
+            .select('*', { count: 'exact', head: true })
+            .ilike('CSR / Philanthropy Focus Areas', `%${cat.query}%`);
+          return { index: i, count: count || 0 };
+        })
+      );
+
+      // Update each card count and make it a link to the filtered directory
+      const cards = grid.querySelectorAll('.impact-card');
+      counts.forEach(({ index, count }) => {
+        const countEl = cards[index].querySelector('.impact-card-count');
+        countEl.classList.remove('loading');
+        countEl.textContent = `${count.toLocaleString()} Organisation${count === 1 ? '' : 's'}`;
+        // Make card link to directory pre-filtered by this search term
+        cards[index].setAttribute('onclick',
+          `window.location='directory.html?q=${encodeURIComponent(IMPACT_CATEGORIES[index].query)}'`);
+      });
+    }
+
+    loadStats();
+    loadImpactCards();
+  </script>
 
 </body>
 </html>
