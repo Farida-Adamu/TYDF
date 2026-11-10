@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — Nigeria Philanthropy Registry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    body {
+      background-color: #F9FAFB;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 72px 80px;
+    }
+
+    .page-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 64px 72px;
+    }
+
+    .page-heading {
+      font-family: var(--font-serif);
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--near-black);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .page-subheading {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--amber);
+      line-height: 1.6;
+      margin-bottom: 48px;
+      max-width: 760px;
+    }
+
+    .method-section {
+      margin-bottom: 44px;
+      padding-bottom: 44px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .method-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .method-section-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--near-black);
+      margin-bottom: 14px;
+    }
+
+    .method-section p {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      max-width: 820px;
+    }
+
+    .method-section p:last-child { margin-bottom: 0; }
+
+    .method-list {
+      list-style: none;
+      margin: 12px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .method-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .method-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      margin-top: 9px;
+      flex-shrink: 0;
+    }
+
+    .partner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FDF3E3;
+      border: 1px solid #F0C882;
+      color: #A85E10;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .page-wrap { padding: 32px 40px 64px; }
+      .page-card { padding: 48px 48px; }
+      .page-heading { font-size: 44px; }
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap { padding: 24px 16px 48px; }
+      .page-card { padding: 32px 24px; }
+      .page-heading { font-size: 36px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <a href="index.html">
+        <img src="tydf-logo.avif" class="nav-logo-img" alt="TY Danjuma Foundation"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="nav-logo-text" style="display:none;">TY Danjuma<br>Foundation</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="directory.html">Directory</a>
+      <a href="about.html">About</a>
+      <a href="methodology.html" class="active">Methodology</a>
+      <button class="btn-submit">Submit Organisation</button>
+    </div>
+  </nav>
+
+  <!-- ═══ PAGE CONTENT ════════════════════════════════════════ -->
+  <div class="page-wrap">
+    <div class="page-card">
+
+      <h1 class="page-heading">Methodology</h1>
+      <p class="page-subheading">How we identify, verify, and classify Nigeria's philanthropic organisations.</p>
+
+      <!-- Data Collection -->
+      <div class="method-section">
+        <h2 class="method-section-title">Data Collection</h2>
+        <div class="partner-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Data partner: Triple NGO
+        </div>
+        <p>The registry data was collected and compiled by <strong>Triple NGO</strong> through a systematic survey of the Corporate Affairs Commission (CAC) of Nigeria's public database. The CAC is Nigeria's official regulatory body for the incorporation of companies and registration of non-profit organisations, making it the authoritative and verifiable source for philanthropic entities operating across the country.</p>
+        <p>Researchers cross-referenced CAC registration records to identify organisations engaged in philanthropic, civil society, or corporate social responsibility activities, covering all six geopolitical zones and 36 states.</p>
+      </div>
+
+      <!-- Inclusion Criteria -->
+      <div class="method-section">
+        <h2 class="method-section-title">Inclusion Criteria</h2>
+        <p>Organisations were included in the registry if they met one or more of the following criteria:</p>
+        <ul class="method-list">
+          <li>Registered with the CAC as a foundation, trust, or non-governmental organisation</li>
+          <li>Primary mandate focused on philanthropic giving, social investment, or community development</li>
+          <li>Operating in one or more of the recognised impact sectors (health, education, agriculture, governance, climate, etc.)</li>
+          <li>Corporate foundations or CSR bodies with a dedicated, structured giving programme</li>
+          <li>Faith-based organisations with a demonstrable community development or social welfare function</li>
+        </ul>
+      </div>
+
+      <!-- Classification Framework -->
+      <div class="method-section">
+        <h2 class="method-section-title">Classification Framework</h2>
+        <p>Each organisation in the registry is classified across four dimensions:</p>
+        <ul class="method-list">
+          <li><strong>Foundation Classification</strong> — Private Foundation, Corporate Foundation, Faith-Based Foundation, Community Trust, or Donor-Advised Fund</li>
+          <li><strong>Geography</strong> — Geopolitical zone and state of primary operation</li>
+          <li><strong>CSR / Philanthropy Focus Areas</strong> — the sectors and thematic areas the organisation works in</li>
+          <li><strong>GESI Tags</strong> — Gender, Equity, and Social Inclusion markers (Women-Led, Disability-Focused, Minority-Serving) where applicable</li>
+        </ul>
+      </div>
+
+      <!-- Data Quality -->
+      <div class="method-section">
+        <h2 class="method-section-title">Data Quality & Verification</h2>
+        <p>Each record was reviewed against publicly available sources, including the CAC portal, organisation websites, and published annual reports, to verify registration status, governance structure, and areas of focus. CAC Registration Status is recorded as Active or Inactive based on the organisation's standing at the time of data collection.</p>
+        <p>All data is handled in accordance with Nigeria's Data Protection Regulation (NDPR). Personal data is limited to publicly available organisational information and no individual-level data is stored.</p>
+      </div>
+
+      <!-- Updates -->
+      <div class="method-section">
+        <h2 class="method-section-title">Ongoing Updates</h2>
+        <p>The registry is maintained by Gatefield on behalf of the TY Danjuma Foundation. Organisations can submit updates or corrections using the <strong>Submit Organisation</strong> form. All submissions are reviewed before publication. Gatefield conducts periodic re-verification of existing records to ensure registration status and organisational details remain current.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer-simple">
+    <span class="footer-simple-text">© 2026 Nigeria Philanthropy Registry</span>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="X (Twitter)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+</body>
+</html>
