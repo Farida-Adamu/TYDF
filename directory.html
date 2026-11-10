@@ -10,9 +10,9 @@
 
     /* ── PAGE HEADER ──────────────────────────────────────── */
     .page-header {
-      background: var(--green);
+      background: var(--white);
       padding: 40px 48px 36px;
-      border-bottom: 3px solid var(--amber);
+      border-bottom: 1px solid var(--border-light);
     }
 
     .page-header-inner {
@@ -26,13 +26,13 @@
       font-family: var(--font-serif);
       font-size: 36px;
       font-weight: 700;
-      color: var(--white);
+      color: var(--near-black);
       margin-bottom: 4px;
     }
 
     .page-subtitle {
       font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      color: var(--text-muted);
     }
 
     .header-search-wrap {
@@ -45,8 +45,8 @@
     .header-search {
       display: flex;
       align-items: center;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--white);
+      border: 1.5px solid var(--border-light);
       border-radius: 7px;
       overflow: hidden;
       min-width: 380px;
@@ -54,7 +54,7 @@
 
     .header-search-icon {
       padding: 0 14px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
       display: flex;
       align-items: center;
     }
@@ -66,14 +66,14 @@
       background: transparent;
       font-family: var(--font-sans);
       font-size: 14px;
-      color: var(--white);
+      color: var(--near-black);
       padding: 13px 0;
     }
 
-    .header-search input::placeholder { color: rgba(255,255,255,0.4); }
+    .header-search input::placeholder { color: var(--text-muted); }
 
     .header-search-btn {
-      background: var(--amber);
+      background: var(--blue);
       color: var(--white);
       border: none;
       padding: 13px 22px;
@@ -85,11 +85,11 @@
       white-space: nowrap;
     }
 
-    .header-search-btn:hover { background: var(--amber-light); }
+    .header-search-btn:hover { background: var(--blue-dark); }
 
     .search-helper-text {
       font-size: 12px;
-      color: rgba(255,255,255,0.42);
+      color: var(--text-muted);
     }
 
     /* ── ACTIVE FILTER CHIPS ──────────────────────────────── */
@@ -117,7 +117,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--green);
+      background: var(--blue);
       color: var(--white);
       padding: 5px 12px;
       border-radius: 100px;
