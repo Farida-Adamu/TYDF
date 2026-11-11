@@ -505,14 +505,13 @@
           <polygon fill="#C4751A" points="8,17 15,24 8,31 1,24"/>
           <polygon fill="#1B6EC2" points="24,17 31,24 24,31 17,24"/>
         </svg>
-        <span class="nav-logo-text">Nigeria Philanthropy<br>Ecosystem</span>
       </a>
     </div>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="directory.html" class="active">Directory</a>
       <a href="about.html">About</a>
-      <a href="submit.html" class="btn-submit">Submit Organisation</a>
+      <a href="submit.html" class="btn-submit">Submit Organization</a>
     </div>
   </nav>
 
@@ -520,7 +519,7 @@
   <div class="page-header">
     <div class="page-header-inner">
       <div>
-        <h1 class="page-title">Browse Organisations</h1>
+        <h1 class="page-title">Browse Organizations</h1>
         <p class="page-subtitle">Nigeria's philanthropic foundations, trusts, and CSR bodies</p>
       </div>
       <div class="header-search-wrap">
@@ -553,10 +552,10 @@
         <span id="sidebar-reset" class="sidebar-reset">Reset all</span>
       </div>
 
-      <!-- Organisation Type -->
+      <!-- Organization Type -->
       <div class="filter-group">
         <div class="filter-group-label">
-          Organisation Type
+          Organization Type
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="filter-options">
@@ -671,7 +670,7 @@
       <div id="state-empty" class="state-box" style="display:none;">
         <div class="state-icon">📭</div>
         <p class="state-title">No results found</p>
-        <p class="state-desc">No organisations found. Try a different search term or filter.</p>
+        <p class="state-desc">No organizations found. Try a different search term or filter.</p>
       </div>
 
       <!-- State: Results -->
@@ -851,7 +850,7 @@
 
     // ── Render a single result card ──────────────────────────
     function renderCard(org) {
-      const name           = org['Foundation Name'] || 'Unnamed Organisation';
+      const name           = org['Foundation Name'] || 'Unnamed Organization';
       const classification = org['Foundation Classification'] || '';
       const zone           = org['Geo-Political Zone'] || '';
       const state          = org['State'] || '';
