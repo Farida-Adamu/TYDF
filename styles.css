@@ -80,9 +80,9 @@ img { display: block; max-width: 100%; }
 }
 
 .nav-logo-text {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 800;
   color: var(--near-black);
   letter-spacing: 0.3px;
   line-height: 1.2;
@@ -178,8 +178,8 @@ img { display: block; max-width: 100%; }
   align-items: center;
   gap: 6px;
   background: transparent;
-  color: var(--green);
-  border: 1.5px solid var(--green);
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
   padding: 10px 20px;
   border-radius: 6px;
   font-family: var(--font-sans);
@@ -188,7 +188,7 @@ img { display: block; max-width: 100%; }
   cursor: pointer;
   transition: all var(--transition);
 }
-.btn-outline:hover { background: var(--green); color: var(--white); }
+.btn-outline:hover { background: var(--blue); color: var(--white); }
 
 .btn-ghost {
   display: inline-flex;
@@ -298,7 +298,7 @@ img { display: block; max-width: 100%; }
 .org-avatar {
   width: 40px;
   height: 40px;
-  background: #D4E6DB;
+  background: #D6E8F9;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -306,7 +306,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 600;
-  color: var(--green);
+  color: var(--blue);
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
