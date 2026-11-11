@@ -293,16 +293,16 @@
     }
 
     .action-btn:last-child { margin-bottom: 0; }
-    .action-btn:hover { border-color: var(--green); color: var(--green); }
+    .action-btn:hover { border-color: var(--blue); color: var(--blue); }
     .action-btn svg { color: var(--text-muted); flex-shrink: 0; }
 
     .action-btn.primary-action {
-      background: var(--amber);
-      border-color: var(--amber);
+      background: var(--blue);
+      border-color: var(--blue);
       color: var(--white);
       font-weight: 600;
     }
-    .action-btn.primary-action:hover { background: var(--amber-light); border-color: var(--amber-light); }
+    .action-btn.primary-action:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
     .action-btn.primary-action svg { color: rgba(255,255,255,0.7); }
 
     /* Contact info */
@@ -404,6 +404,117 @@
       .details-grid { grid-template-columns: 1fr; }
       .profile-header-body { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ── REQUEST UPDATE MODAL ─────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--near-black);
+      margin-bottom: 6px;
+    }
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .form-row { margin-bottom: 18px; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--near-black);
+      background: var(--white);
+      border: 1.5px solid var(--border-light);
+      border-radius: 6px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.15s;
+      box-sizing: border-box;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue);
+    }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 28px; }
+    .btn-cancel {
+      background: transparent;
+      border: 1.5px solid var(--border-light);
+      color: var(--text-mid);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-submit-form {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-submit-form:hover { background: var(--blue-dark); }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 24px 0;
+    }
+    .form-success-icon {
+      width: 48px; height: 48px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      color: #2E7D32;
+    }
+    .form-success h3 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
+    .form-success p { font-size: 14px; color: var(--text-muted); }
+
+    /* ── PRINT STYLES ─────────────────────────────────────── */
+    @media print {
+      .site-nav, .profile-sidebar, .site-footer, .modal-overlay { display: none !important; }
+      body { background: white !important; }
+      .profile-layout { display: block !important; }
+      .profile-main { max-width: 100% !important; }
+      .profile-hero { background: #f5f5f5 !important; padding: 24px !important; border-radius: 0 !important; }
+      .detail-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -421,7 +532,7 @@
       <a href="index.html">Home</a>
       <a href="directory.html">Directory</a>
       <a href="about.html">About</a>
-      <button class="btn-submit">Submit Organisation</button>
+      <a href="submit.html" class="btn-submit">Submit Organisation</a>
     </div>
   </nav>
 
@@ -501,15 +612,15 @@
       <!-- Actions -->
       <div class="sidebar-card">
         <div class="sidebar-card-title">Actions</div>
-        <button class="action-btn primary-action">
+        <button class="action-btn primary-action" onclick="window.print()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export Record (PDF / CSV)
+          Export Record (PDF)
         </button>
-        <button class="action-btn">
+        <button class="action-btn" id="btn-request-update">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Request Update / Correction
         </button>
-        <button class="action-btn">
+        <button class="action-btn" onclick="navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Share Profile
         </button>
@@ -850,7 +961,68 @@
     });
 
     loadProfile();
+
+    // Request Update / Correction modal
+    const modal = document.getElementById('update-modal');
+    document.getElementById('btn-request-update').addEventListener('click', () => {
+      const name = document.getElementById('profile-name')?.textContent || '';
+      document.getElementById('modal-org-name').value = name;
+      modal.classList.add('open');
+    });
+    document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+    document.getElementById('update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('form-content').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    });
   </script>
+
+  <!-- ═══ REQUEST UPDATE MODAL ══════════════════════════════ -->
+  <div class="modal-overlay" id="update-modal">
+    <div class="modal-box">
+      <div id="form-content">
+        <div class="modal-title">Request Update / Correction</div>
+        <p class="modal-sub">Use this form to flag incorrect or outdated information for this record. All submissions are reviewed by the Gatefield team.</p>
+        <form id="update-form" name="request-update" netlify>
+          <input type="hidden" name="form-name" value="request-update">
+          <div class="form-row">
+            <label class="form-label">Organisation Name</label>
+            <input class="form-input" type="text" name="organisation" id="modal-org-name" readonly>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" name="submitter-name" placeholder="Your full name" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Your Email</label>
+            <input class="form-input" type="email" name="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Field(s) to Correct</label>
+            <input class="form-input" type="text" name="fields" placeholder="e.g. Foundation Classification, Website" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Correct Information</label>
+            <textarea class="form-textarea" name="correction" placeholder="Please describe the correct information and provide a source if possible..." required></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" id="modal-close">Cancel</button>
+            <button type="submit" class="btn-submit-form">Submit Request</button>
+          </div>
+        </form>
+      </div>
+      <div class="form-success" id="form-success">
+        <div class="form-success-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Thank you. The Gatefield team will review your correction and update the record if verified.</p>
+        <button class="btn-submit-form" style="margin-top:20px;" onclick="document.getElementById('update-modal').classList.remove('open'); document.getElementById('form-content').style.display='block'; document.getElementById('form-success').style.display='none';">Close</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

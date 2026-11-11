@@ -195,7 +195,7 @@
     <div class="nav-links">
       <a href="directory.html">Directory</a>
       <a href="about.html">About</a>
-      <button class="btn-submit">Submit Organisation</button>
+      <a href="submit.html" class="btn-submit">Submit Organisation</a>
     </div>
   </nav>
 
@@ -205,28 +205,6 @@
     <p class="hero-sub">A centralized, searchable registry of foundations and trusts operating across Nigeria's six geopolitical zones. Built for coordination, transparency, and collaboration by funders, policymakers, and civil society.</p>
     <a href="directory.html" class="btn-explore">Explore Full Directory</a>
   </section>
-
-  <!-- ═══ STATS BAR ═══════════════════════════════════════════ -->
-  <div class="stats-bar">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div id="stat-total" class="stat-number">—</div>
-        <div class="stat-label">Registered Organisations</div>
-      </div>
-      <div class="stat-item">
-        <div id="stat-states" class="stat-number">—</div>
-        <div class="stat-label">States Covered</div>
-      </div>
-      <div class="stat-item">
-        <div id="stat-zones" class="stat-number">6</div>
-        <div class="stat-label">Geopolitical Zones</div>
-      </div>
-      <div class="stat-item">
-        <div id="stat-sectors" class="stat-number">—</div>
-        <div class="stat-label">Impact Sectors</div>
-      </div>
-    </div>
-  </div>
 
   <!-- ═══ EXPLORE BY IMPACT AREA ══════════════════════════════ -->
   <div class="impact-section">
@@ -281,22 +259,6 @@
       { name: 'Peacebuilding',       query: 'Peace' },
     ];
 
-    async function loadStats() {
-      // Fetch all orgs for counts (lightweight — just State column)
-      const { data: orgs } = await db
-        .from('Organizations')
-        .select('State');
-
-      if (orgs) {
-        const total  = orgs.length;
-        const states = new Set(orgs.map(r => r['State']).filter(Boolean)).size;
-
-        document.getElementById('stat-total').textContent  = total.toLocaleString() + '+';
-        document.getElementById('stat-states').textContent = states;
-        document.getElementById('stat-sectors').textContent = IMPACT_CATEGORIES.length + '+';
-      }
-    }
-
     async function loadImpactCards() {
       const grid = document.getElementById('impact-grid');
 
@@ -330,7 +292,6 @@
       });
     }
 
-    loadStats();
     loadImpactCards();
   </script>
 

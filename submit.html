@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Organisation — Nigeria Philanthropy Registry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    body {
+      background-color: #F9FAFB;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .page-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 56px 64px;
+    }
+
+    .page-heading {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--near-black);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .page-sub {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .form-section-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--near-black);
+      margin: 36px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .form-row { margin-bottom: 20px; }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+    }
+
+    .form-label span {
+      color: var(--blue);
+      margin-left: 2px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--near-black);
+      background: var(--white);
+      border: 1.5px solid var(--border-light);
+      border-radius: 7px;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(27,110,194,0.08);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder { color: #B0B8C4; }
+    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .form-textarea { resize: vertical; min-height: 90px; }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .form-actions {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .form-ndpr {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 400px;
+      line-height: 1.5;
+    }
+
+    .btn-primary-submit {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 13px 32px;
+      border-radius: 7px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary-submit:hover { background: var(--blue-dark); }
+
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .success-icon {
+      width: 64px; height: 64px;
+      background: #E8F4FB;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--blue);
+    }
+
+    .success-box h2 {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--near-black);
+      margin-bottom: 10px;
+    }
+
+    .success-box p {
+      font-size: 15px;
+      color: var(--text-mid);
+      max-width: 400px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .page-card { padding: 32px 24px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .form-actions { flex-direction: column; gap: 16px; align-items: stretch; }
+      .btn-primary-submit { text-align: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <a href="index.html">
+        <img src="tydf-logo.avif" class="nav-logo-img" alt="TY Danjuma Foundation"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="nav-logo-text" style="display:none;">TY Danjuma<br>Foundation</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="directory.html">Directory</a>
+      <a href="about.html">About</a>
+      <button class="btn-submit active-nav-btn">Submit Organisation</button>
+    </div>
+  </nav>
+
+  <!-- ═══ PAGE CONTENT ════════════════════════════════════════ -->
+  <div class="page-wrap">
+    <div class="page-card">
+
+      <div id="form-content">
+        <h1 class="page-heading">Submit an Organisation</h1>
+        <p class="page-sub">Add a foundation, trust, or CSR body to the Nigeria Philanthropy Registry. All submissions are reviewed by the Gatefield team before publication. Fields marked <span style="color:var(--blue);font-weight:600;">*</span> are required.</p>
+
+        <form id="submit-form" name="submit-organisation" netlify>
+          <input type="hidden" name="form-name" value="submit-organisation">
+
+          <!-- Basic Information -->
+          <div class="form-section-title">Basic Information</div>
+
+          <div class="form-row">
+            <label class="form-label">Foundation / Organisation Name <span>*</span></label>
+            <input class="form-input" type="text" name="foundation-name" placeholder="e.g. Aliko Dangote Foundation" required>
+          </div>
+
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">Foundation Classification <span>*</span></label>
+              <select class="form-select" name="foundation-classification" required>
+                <option value="">Select type...</option>
+                <option>Private Foundation</option>
+                <option>Corporate Foundation</option>
+                <option>Faith-Based Foundation</option>
+                <option>Community Trust</option>
+                <option>Donor-Advised Fund</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">CAC Registration Status</label>
+              <select class="form-select" name="cac-status">
+                <option value="">Select status...</option>
+                <option>Active</option>
+                <option>Inactive</option>
+                <option>Unknown</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">Date of Registration</label>
+              <input class="form-input" type="date" name="date-of-registration">
+            </div>
+            <div>
+              <label class="form-label">Organisation / Parent Company</label>
+              <input class="form-input" type="text" name="parent-company" placeholder="e.g. Dangote Group">
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-section-title">Location</div>
+
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">Geo-Political Zone <span>*</span></label>
+              <select class="form-select" name="zone" required>
+                <option value="">Select zone...</option>
+                <option>North Central</option>
+                <option>North East</option>
+                <option>North West</option>
+                <option>South East</option>
+                <option>South South</option>
+                <option>South West</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">State <span>*</span></label>
+              <input class="form-input" type="text" name="state" placeholder="e.g. Lagos" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Registered Address</label>
+            <textarea class="form-textarea" name="registered-address" placeholder="Full registered address..." style="min-height:70px;"></textarea>
+          </div>
+
+          <!-- Focus Areas -->
+          <div class="form-section-title">Focus Areas</div>
+
+          <div class="form-row">
+            <label class="form-label">CSR / Philanthropy Focus Areas <span>*</span></label>
+            <input class="form-input" type="text" name="csr-focus-areas" placeholder="e.g. Health, Education, Economic Empowerment" required>
+            <p class="form-hint">Separate multiple areas with commas</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Sector</label>
+            <input class="form-input" type="text" name="sector" placeholder="e.g. Industry Philanthropy, Faith-Based Development">
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">GESI Tags</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item">
+                <input type="checkbox" name="gesi" value="Women-Led"> Women-Led
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="gesi" value="Disability-Focused"> Disability-Focused
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="gesi" value="Minority-Serving"> Minority-Serving
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="gesi" value="Youth-Focused"> Youth-Focused
+              </label>
+            </div>
+          </div>
+
+          <!-- Governance & Financials -->
+          <div class="form-section-title">Governance & Financials</div>
+
+          <div class="form-row">
+            <label class="form-label">Governance Structure</label>
+            <input class="form-input" type="text" name="governance-structure" placeholder="e.g. Board of Trustees, Executive Director">
+          </div>
+
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">Estimated Annual Spend (₦)</label>
+              <input class="form-input" type="text" name="annual-spend-ngn" placeholder="e.g. 500,000,000">
+            </div>
+            <div>
+              <label class="form-label">Estimated Annual Spend (USD)</label>
+              <input class="form-input" type="text" name="annual-spend-usd" placeholder="e.g. 300,000">
+            </div>
+          </div>
+
+          <!-- Contact & Sources -->
+          <div class="form-section-title">Contact & Sources</div>
+
+          <div class="form-row">
+            <label class="form-label">Website</label>
+            <input class="form-input" type="url" name="website" placeholder="https://...">
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Verifiable Source Link</label>
+            <input class="form-input" type="url" name="source-link" placeholder="CAC portal URL or other public record">
+            <p class="form-hint">Link to CAC registration page, annual report, or official source</p>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Your Name & Email (for follow-up)</label>
+            <input class="form-input" type="text" name="submitter" placeholder="Name · email@example.com">
+          </div>
+
+          <div class="form-actions">
+            <p class="form-ndpr">All data is handled in accordance with Nigeria's Data Protection Regulation (NDPR). Submissions are reviewed before publication.</p>
+            <button type="submit" class="btn-primary-submit">Submit for Review</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div class="success-box" id="submit-success">
+        <div class="success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Submission Received</h2>
+        <p>Thank you. The Gatefield team will review your submission and add it to the registry if verified. This typically takes 5–10 business days.</p>
+        <a href="directory.html" class="btn-primary-submit" style="display:inline-block;text-decoration:none;">Back to Directory</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer-simple">
+    <span class="footer-simple-text">© 2026 Nigeria Philanthropy Registry · <a href="methodology.html" style="color:inherit;text-decoration:none;">Methodology</a></span>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="X (Twitter)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('submit-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('form-content').style.display = 'none';
+      document.getElementById('submit-success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
