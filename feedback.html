@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Feedback — Nigeria Philanthropy Registry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    body {
+      background-color: #F9FAFB;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 56px 64px;
+    }
+
+    .page-heading {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--near-black);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .page-sub {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .form-row { margin-bottom: 20px; }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+    }
+
+    .form-label span { color: var(--blue); margin-left: 2px; }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--near-black);
+      background: var(--white);
+      border: 1.5px solid var(--border-light);
+      border-radius: 7px;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(27,110,194,0.08);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder { color: #B0B8C4; }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    .form-actions {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+      gap: 16px;
+    }
+
+    .btn-cancel {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-cancel:hover { color: var(--near-black); }
+
+    .btn-primary-submit {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 13px 32px;
+      border-radius: 7px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary-submit:hover { background: var(--blue-dark); }
+
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .success-icon {
+      width: 64px; height: 64px;
+      background: #E8F4FB;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--blue);
+    }
+
+    .success-box h2 {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--near-black);
+      margin-bottom: 10px;
+    }
+
+    .success-box p {
+      font-size: 15px;
+      color: var(--text-mid);
+      max-width: 360px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .page-card { padding: 32px 24px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .form-actions { flex-direction: column-reverse; align-items: stretch; }
+      .btn-primary-submit { text-align: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <a href="index.html">
+        <svg class="nav-logo-mark" width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon fill="#1B6EC2" points="8,1 15,8 8,15 1,8"/>
+          <polygon fill="#C4751A" points="24,1 31,8 24,15 17,8"/>
+          <polygon fill="#C4751A" points="8,17 15,24 8,31 1,24"/>
+          <polygon fill="#1B6EC2" points="24,17 31,24 24,31 17,24"/>
+        </svg>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="directory.html">Directory</a>
+      <a href="about.html">About</a>
+      <a href="submit.html" class="btn-submit">Submit Organisation</a>
+    </div>
+  </nav>
+
+  <!-- ═══ PAGE CONTENT ════════════════════════════════════════ -->
+  <div class="page-wrap">
+    <div class="page-card">
+
+      <div id="form-content">
+        <h1 class="page-heading">Share Feedback</h1>
+        <p class="page-sub">Help us improve the Nigeria Philanthropy Registry. Your feedback goes directly to the Gatefield team.</p>
+
+        <form id="feedback-form" name="feedback" netlify>
+          <input type="hidden" name="form-name" value="feedback">
+
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">Your Name</label>
+              <input class="form-input" type="text" name="name" placeholder="Full name">
+            </div>
+            <div>
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" name="email" placeholder="your@email.com">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Type of Feedback <span>*</span></label>
+            <select class="form-select" name="feedback-type" required>
+              <option value="">Select a category...</option>
+              <option>General suggestion</option>
+              <option>Missing organisation</option>
+              <option>Incorrect data</option>
+              <option>Feature request</option>
+              <option>Technical issue</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Your Feedback <span>*</span></label>
+            <textarea class="form-textarea" name="message" placeholder="Tell us what you think, what's missing, or what could be better…" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <a href="javascript:history.back()" class="btn-cancel">Cancel</a>
+            <button type="submit" class="btn-primary-submit">Send Feedback</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div class="success-box" id="feedback-success">
+        <div class="success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Thank You</h2>
+        <p>Your feedback has been received. We read every submission and use it to improve the registry.</p>
+        <a href="index.html" class="btn-primary-submit" style="display:inline-block;text-decoration:none;">Back to Home</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer-simple">
+    <span class="footer-simple-text">© 2026 Nigeria Philanthropy Registry · <a href="methodology.html" style="color:inherit;text-decoration:none;">Methodology</a></span>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="X (Twitter)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('feedback-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('form-content').style.display = 'none';
+      document.getElementById('feedback-success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>

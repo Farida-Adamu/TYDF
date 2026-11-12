@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organization Profile — Nigeria Philanthropy Registry</title>
+  <title>Organisation Profile — Nigeria Philanthropy Registry</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
@@ -535,7 +535,7 @@
       <a href="index.html">Home</a>
       <a href="directory.html">Directory</a>
       <a href="about.html">About</a>
-      <a href="submit.html" class="btn-submit">Submit Organization</a>
+      <a href="submit.html" class="btn-submit">Submit Organisation</a>
     </div>
   </nav>
 
@@ -569,7 +569,7 @@
   <!-- ═══ TAB NAVIGATION ══════════════════════════════════════ -->
   <div class="profile-tabs">
     <span class="tab-link active">Overview</span>
-    <span class="tab-link">Programs</span>
+    <span class="tab-link">Programmes</span>
     <span class="tab-link">Financials</span>
     <span class="tab-link">Contact</span>
   </div>
@@ -582,7 +582,7 @@
 
       <!-- About -->
       <div class="content-section">
-        <h2 class="content-section-title">About the Organization</h2>
+        <h2 class="content-section-title">About the Organisation</h2>
         <div id="about-text" class="about-text">
           <span class="skeleton" style="width:100%;display:block;margin-bottom:8px;"></span>
           <span class="skeleton" style="width:88%;display:block;margin-bottom:8px;"></span>
@@ -599,11 +599,11 @@
         </div>
       </div>
 
-      <!-- Active Programs -->
+      <!-- Active Programmes -->
       <div class="content-section">
-        <h2 class="content-section-title">Active Programs</h2>
+        <h2 class="content-section-title">Active Programmes</h2>
         <div id="programmes-content">
-          <p style="font-size:14px;color:var(--text-muted);line-height:1.6;">Program data will be available in a future registry update.</p>
+          <p style="font-size:14px;color:var(--text-muted);line-height:1.6;">Programme data will be available in a future registry update.</p>
         </div>
       </div>
 
@@ -647,7 +647,7 @@
           <span class="skeleton" style="width:90px;height:22px;border-radius:4px;display:inline-block;"></span>
           <span class="skeleton" style="width:110px;height:22px;border-radius:4px;display:inline-block;"></span>
         </div>
-        <p style="font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.5;">GESI tags are assigned based on organizational focus, leadership composition, and program beneficiary data.</p>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.5;">GESI tags are assigned based on organisational focus, leadership composition, and programme beneficiary data.</p>
       </div>
 
       <!-- Data Provenance -->
@@ -679,7 +679,7 @@
     <div class="footer-main">
       <div>
         <div class="footer-brand-name">Nigeria Philanthropy Registry</div>
-        <p class="footer-brand-desc">A centralized digital database of philanthropic foundations and trusts operating in Nigeria. Built for coordination, transparency, and collaboration.</p>
+        <p class="footer-brand-desc">A centralised digital database of philanthropic foundations and trusts operating in Nigeria. Built for coordination, transparency, and collaboration.</p>
       </div>
       <div>
         <div class="footer-col-label">Registry</div>
@@ -696,6 +696,7 @@
           <a href="about.html">About the Registry</a>
           <a href="methodology.html">Methodology</a>
           <a href="about.html">NDPR Compliance</a>
+          <a href="feedback.html">Share Feedback</a>
           <a href="#">Submit / Update Record</a>
         </nav>
       </div>
@@ -780,7 +781,7 @@
     function showError(msg) {
       document.getElementById('breadcrumb-org-name').textContent = 'Not found';
       document.getElementById('profile-avatar').textContent = '?';
-      document.getElementById('profile-org-name').textContent = 'Organization not found';
+      document.getElementById('profile-org-name').textContent = 'Organisation not found';
       document.getElementById('profile-type-badge').textContent = '';
       document.getElementById('about-text').innerHTML =
         `<p style="color:var(--text-muted);">${esc(msg)} <a href="directory.html" style="color:var(--amber);">← Back to Directory</a></p>`;
@@ -803,7 +804,7 @@
         { label: 'Date of Registration',   value: org['Date of Registration'] || '—' },
         { label: 'Governance Structure',   value: org['Governance Structure'] || '—' },
         { label: 'Est. Annual Spend',      value: spendStr },
-        { label: 'Parent Organization',    value: org['Organisation / Parent Company'] || '—' },
+        { label: 'Parent Organisation',    value: org['Organisation / Parent Company'] || '—' },
         { label: 'CAC Status',             value: org['CAC Registration Status'] || '—' },
         { label: 'Website', value: org['Website']
             ? `<a href="${esc(org['Website'])}" target="_blank" rel="noopener">${esc(org['Website'].replace(/^https?:\/\//, ''))}</a>`
@@ -884,7 +885,7 @@
 
     // ── Populate profile with org data ───────────────────────
     function populateProfile(org) {
-      const name = org['Foundation Name'] || 'Unnamed Organization';
+      const name = org['Foundation Name'] || 'Unnamed Organisation';
 
       document.title = `${name} — Nigeria Philanthropy Registry`;
 
@@ -935,7 +936,7 @@
       const orgId = params.get('id');
 
       if (!orgId) {
-        showError('No organization was specified. Please select one from the directory.');
+        showError('No organisation was specified. Please select one from the directory.');
         return;
       }
 
@@ -946,7 +947,7 @@
         .single();
 
       if (error || !data) {
-        showError('This organization could not be found in the registry.');
+        showError('This organisation could not be found in the registry.');
         return;
       }
 
@@ -989,8 +990,8 @@
         <form id="update-form" name="request-update" netlify>
           <input type="hidden" name="form-name" value="request-update">
           <div class="form-row">
-            <label class="form-label">Organization Name</label>
-            <input class="form-input" type="text" name="organization" id="modal-org-name" readonly>
+            <label class="form-label">Organisation Name</label>
+            <input class="form-input" type="text" name="organisation" id="modal-org-name" readonly>
           </div>
           <div class="form-row">
             <label class="form-label">Your Name</label>
